@@ -1,2 +1,8 @@
-# roadsandboats
-Implementation of the board game Roads &amp; Boats 
+# Roads & Boats
+Implementation of the Splotter board game *Roads &amp; Boats*
+
+
+--- 
+
+# Notes
+* Used some ideas from https://github.com/algorithm0r/SuperMarioBros/
