@@ -5,7 +5,12 @@ class GameController {
 
 
     start() {
-        this.view.draw()
         this.view.showInfoMessage("hello")
+        this.redraw()
     }
+
+    redraw() {
+        this.view.draw()
+    }
+
 }

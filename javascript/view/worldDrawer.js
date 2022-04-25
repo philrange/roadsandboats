@@ -9,23 +9,25 @@ class WorldDrawer {
         let grid = this.world.getGrid()
         for (const hex of grid) {
             let tile = this.world.getTileForHex(hex)
+            console.log("drawing hex " + hex + " " + tile + " ")
             this.drawTile(hex, tile)
         }
     }
 
     drawTile(hex, tile) {
 
-        // const centre = hex.toPoint().add(this.offsetX, this.offsetY)
-        const centre = hex.toPoint()
-        // add the hex's position to each of its corner points
-        const corners = hex.corners().map(corner => corner.add(centre).add(this.offset))
+        let canvas = this.canvasContext
+        const hexOriginPoint = hex.toPoint().add(this.offset)
+        const centre = hexOriginPoint.add(hex.center())
+        // add the hex's position to each of its corner point offsets
+        const corners = hex.corners().map(corner => corner.add(hexOriginPoint))
         // separate the first from the other corners
         const [firstCorner, ...otherCorners] = corners
 
         let type = tile.getType()
 
         if (type !== TileType.EMPTY) {
-            let canvas = this.canvasContext
+            //draw the hex itself
             canvas.beginPath();
             //set colour based on tile type
             canvas.fillStyle = this.getTileColour(type)
@@ -36,30 +38,73 @@ class WorldDrawer {
             // finish at the first corner
             canvas.lineTo(firstCorner.x, firstCorner.y)
             canvas.fill()
+            canvas.lineWidth = 1;
             canvas.strokeStyle = '#000'
             canvas.stroke()
+
+
+            //draw stuff on top
+            this.drawRivers(hexOriginPoint, centre, hex, tile)
+
+            if (PARAMS.DEBUG) {
+                canvas.font = "10px Arial";
+                canvas.fillStyle = 'black'
+                canvas.fillText(hex, centre.x, centre.y);
+            }
         }
 
-        this.drawRivers(hex, tile)
+
     }
 
-    drawRivers(hex, tile) {
+    drawRivers(hexOriginPoint, centre, hex, tile) {
         let canvas = this.canvasContext
-        let centre = hex.toPoint().add(this.offset)
         tile.getRiverExits().forEach(direction => {
-            let middle = this.findMiddle(hex.corners()[1].add(this.offset), hex.corners()[2].add(this.offset))
-            console.log("drawing river " + centre.toString() + " " + middle.toString())
-            canvas.strokeStyle = '#0000ff'
+            console.log("found river for " + hex + " " + tile)
+            let corners = this.getCornersForDirection(direction)
+            let middle = this.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
+            console.log(hex)
+            console.log("drawing river " + centre + " " + middle)
+            canvas.lineWidth = 5;
+            canvas.strokeStyle = PARAMS.RIVER_COLOUR
             canvas.fillStyle = '#0000ff'
             canvas.beginPath();
             canvas.moveTo(centre.x, centre.y);
             canvas.lineTo(middle.x, middle.y);
             canvas.stroke();
-            canvas.beginPath()
-            canvas.arc(centre.x, centre.y, 2, 0, Math.PI * 2)
-            canvas.arc(middle.x, middle.y, 5, 0, Math.PI * 2)
-            canvas.fill()
+            if (PARAMS.DEBUG) {
+                canvas.beginPath()
+                canvas.arc(centre.x, centre.y, 2, 0, Math.PI * 2)
+                canvas.arc(middle.x, middle.y, 5, 0, Math.PI * 2)
+                canvas.fill()
+            }
         })
+    }
+
+    getCornersForDirection(direction) {
+        let aIndex = 0
+        let bIndex = 1
+        switch (direction) {
+            case Direction.EAST:
+                aIndex = 0; bIndex = 1;
+                break
+            case Direction.SOUTHEAST:
+                aIndex = 1; bIndex = 2;
+                break
+            case Direction.SOUTHWEST:
+                aIndex = 2; bIndex = 3;
+                break
+            case Direction.WEST:
+                aIndex = 3; bIndex = 4;
+                break
+            case Direction.NORTHWEST:
+                aIndex = 4; bIndex = 5;
+                break
+            case Direction.NORTHEAST:
+                aIndex = 5; bIndex = 6;
+                break
+        }
+
+        return {a: aIndex, b: bIndex}
     }
 
     findMiddle(point1, point2) {
@@ -83,7 +128,7 @@ class WorldDrawer {
             case TileType.ROCK:
                 return "#777777"
             default:
-                return "green"
+                return "white"
         }
     }
 

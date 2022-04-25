@@ -10,19 +10,19 @@ class WorldBuilder {
 
         const worldGrid = Grid.rectangle({ width: 4, height: 3 })
         let tiles = []
-        tiles.push(new Tile(TileType.MOUNTAIN))
-        tiles.push(new Tile(TileType.WOODS, [Direction.NORTHEAST]))
-        tiles.push(new Tile(TileType.ROCK))
+        tiles.push(new Tile(TileType.MOUNTAIN, [Direction.EAST]))
+        tiles.push(new Tile(TileType.WOODS, [Direction.WEST, Direction.EAST]))
+        tiles.push(new Tile(TileType.ROCK, [Direction.WEST, Direction.SOUTHEAST]))
         tiles.push(new Tile(TileType.MOUNTAIN))
 
-        tiles.push(new Tile(TileType.DESERT))
-        tiles.push(new Tile(TileType.WOODS))
-        tiles.push(new Tile(TileType.PASTURE))
+        tiles.push(new Tile(TileType.DESERT, [Direction.SOUTHEAST, Direction.EAST]))
+        tiles.push(new Tile(TileType.WOODS, [Direction.WEST, Direction.EAST]))
+        tiles.push(new Tile(TileType.PASTURE, [Direction.NORTHWEST, Direction.WEST]))
         tiles.push(new Tile(TileType.SEA))
 
         tiles.push(new Tile(TileType.EMPTY))
-        tiles.push(new Tile(TileType.DESERT))
-        tiles.push(new Tile(TileType.PASTURE))
+        tiles.push(new Tile(TileType.DESERT, [Direction.NORTHWEST, Direction.EAST]))
+        tiles.push(new Tile(TileType.PASTURE, [Direction.WEST, Direction.EAST]))
         tiles.push(new Tile(TileType.SEA))
 
         let hexToTileMap = new Map()

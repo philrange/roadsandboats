@@ -11,9 +11,6 @@ class TileType {
         this.name = name;
     }
 
-    toString() {
-        return `Color.${this.name}`;
-    }
 }
 
 class BuildingArea {
@@ -103,6 +100,11 @@ class Tile {
 
     hasRoad(direction) {
         this.roads.has(direction)
+    }
+
+
+    toString() {
+        return `[${this.type.name}]`;
     }
 }
 
