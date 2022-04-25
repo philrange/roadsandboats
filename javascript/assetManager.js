@@ -23,8 +23,6 @@ class AssetManager {
 
             this.sleep(1000).then(() => {
             let path = this.downloadQueue[i];
-            console.log(path);
-            console.log("sleeping");
             let ext = path.substring(path.length - 3);
 
             switch (ext) {

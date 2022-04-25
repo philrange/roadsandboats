@@ -4,8 +4,8 @@ class GameController {
     }
 
 
-
     start() {
         this.view.draw()
+        this.view.showInfoMessage("hello")
     }
 }

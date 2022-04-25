@@ -4,7 +4,8 @@ class TileType {
     static PASTURE = new TileType('Pasture');
     static ROCK = new TileType('Rock');
     static SEA = new TileType('Sea');
-    static WOODS = new TileType('WOODS');
+    static WOODS = new TileType('Woods');
+    static EMPTY = new TileType('-');
 
     constructor(name) {
         this.name = name;
@@ -72,6 +73,10 @@ class Tile {
 
     getType() {
         return this.type
+    }
+
+    getRiverExits() {
+        return this.riverExits
     }
 
     canBuild() {

@@ -2,8 +2,6 @@ let ASSET_MANAGER = new AssetManager();
 
 // load images
 ASSET_MANAGER.queueDownload("./images/mario.png");
-ASSET_MANAGER.queueDownload("./images/mario.png");
-ASSET_MANAGER.queueDownload("./images/mario.png");
 
 
 let downloaded = 0;
@@ -26,10 +24,8 @@ ASSET_MANAGER.downloadAll(updateLoadingBar, function () {
     canvasContext.font = "30px Arial";
     canvasContext.fillText("Loading...", 400, 200);
 
-
     let world = new WorldBuilder().buildWorld()
     let gameController = new GameController(canvasContext, world);
-
 
 //todo - remove this stuff
     drawMario(canvasContext);

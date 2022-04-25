@@ -5,23 +5,7 @@
     <title>Roads & Boats</title>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Press+Start+2P">
-    <style>
-        body {
-            font-family: 'Press Start 2P', serif;
-            font-size: 24px;
-        }
-        canvas {
-            padding-left: 0;
-            padding-right: 0;
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-            font-size: 20px;
-        }
-        div {
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 
     <script type="text/javascript" src="./javascript/parameters.js"></script>
     <script type="text/javascript" src="./javascript/util.js"></script>
@@ -37,17 +21,22 @@
     <script type="text/javascript" src="./javascript/view/view.js"></script>
     <script type="text/javascript" src="./javascript/view/worldDrawer.js"></script>
 
+    <script type="text/javascript" src="./javascript/thirdparty/honeycomb.min.js"></script>
+
     <script type="text/javascript" src="./javascript/controller/gameController.js"></script>
 
 </head>
 <body onload="updateLoadingBar()">
+
     <div><span id="loadingBar"></span></div>
 
     <canvas id="gameWorld" width="1000" height="600" style="background: #049cd8;" tabindex ="0" autofocus></canvas>
 
-    <div>
-        <br>
-        <input type="checkbox" id="debug"> Debug
-    </div>
+    <div><span id="infoMessage"></span></div>
+
+<!--    <div>-->
+<!--        <br>-->
+<!--        <input type="checkbox" id="debug"> Debug-->
+<!--    </div>-->
 </body>
 </html>

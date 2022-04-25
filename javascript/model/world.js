@@ -1,15 +1,18 @@
 class World {
-    constructor(name) {
+    constructor(name, hexToTileMap, worldGrid) {
         this.name = name
-        this.tiles = []
+        this.hexToTileMap = hexToTileMap
+        this.worldGrid = worldGrid
     }
 
 
-    getTiles() {
-        return this.tiles
+    getGrid() {
+        return this.worldGrid
     }
 
-    addTile(tile) {
-        this.tiles.push(tile)
+
+    getTileForHex(hex) {
+        return this.hexToTileMap.get(hex);
     }
+
 }
