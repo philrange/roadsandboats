@@ -9,7 +9,7 @@ class WorldDrawer {
         let grid = this.world.getGrid()
         for (const hex of grid) {
             let tile = this.world.getTileForHex(hex)
-            console.log("drawing hex " + hex + " " + tile + " ")
+            // console.log("drawing hex " + hex + " " + tile + " ")
             this.drawTile(hex, tile)
         }
     }
@@ -59,11 +59,10 @@ class WorldDrawer {
     drawRivers(hexOriginPoint, centre, hex, tile) {
         let canvas = this.canvasContext
         tile.getRiverExits().forEach(direction => {
-            console.log("found river for " + hex + " " + tile)
+            // console.log("found river for " + hex + " " + tile)
             let corners = this.getCornersForDirection(direction)
             let middle = this.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
-            console.log(hex)
-            console.log("drawing river " + centre + " " + middle)
+            // console.log("drawing river " + centre + " " + middle)
             canvas.lineWidth = 5;
             canvas.strokeStyle = PARAMS.RIVER_COLOUR
             canvas.fillStyle = '#0000ff'
@@ -118,6 +117,7 @@ class WorldDrawer {
             case TileType.DESERT:
                 return "#ffcc66"
             case TileType.PASTURE:
+            case TileType.IRRIGATED_DESERT:
                 return "#22ee88"
             case TileType.MOUNTAIN:
                 return "#760505"

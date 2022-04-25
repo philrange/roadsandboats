@@ -1,6 +1,7 @@
 class GameController {
-    constructor(canvasContext, world) {
-        this.view = new View(canvasContext, world);
+    constructor(canvasContext, world, wonder) {
+        this.gameContext = new GameContext(this, world, wonder)
+        this.view = new View(this.gameContext, canvasContext, world);
     }
 
 
@@ -11,6 +12,16 @@ class GameController {
 
     redraw() {
         this.view.draw()
+    }
+
+    performCommand(command) {
+        console.log("Performing command: " + command)
+        this.gameContext.addCommandToHistory(command)
+        command.perform(this.gameContext)
+    }
+
+    undoLastCommand() {
+        this.gameContext.undoLastCommand()
     }
 
 }

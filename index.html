@@ -17,26 +17,41 @@
     <script type="text/javascript" src="./javascript/model/world.js"></script>
     <script type="text/javascript" src="./javascript/model/worldBuilder.js"></script>
     <script type="text/javascript" src="./javascript/model/gameState.js"></script>
+    <script type="text/javascript" src="./javascript/model/wonder.js"></script>
 
     <script type="text/javascript" src="./javascript/view/view.js"></script>
     <script type="text/javascript" src="./javascript/view/worldDrawer.js"></script>
+    <script type="text/javascript" src="./javascript/view/wonderDrawer.js"></script>
+    <script type="text/javascript" src="./javascript/view/commandHistoryDrawer.js"></script>
 
     <script type="text/javascript" src="./javascript/thirdparty/honeycomb.min.js"></script>
 
     <script type="text/javascript" src="./javascript/controller/gameController.js"></script>
+    <script type="text/javascript" src="./javascript/controller/gameContext.js"></script>
+    <script type="text/javascript" src="./javascript/controller/command.js"></script>
 
 </head>
 <body onload="updateLoadingBar()">
 
     <div><span id="loadingBar"></span></div>
 
-    <canvas id="gameWorld" width="1000" height="600" style="background: #049cd8;" tabindex ="0" autofocus></canvas>
+    <div class="horizontal">
+        <div id="historyWrapper">
+            <div><button id="undo">Undo</button></div>
+            <div><span id="commandHistory"></span></div>
+        </div>
+        <div><canvas id="gameWorld" width="1000" height="600"  tabindex ="0" autofocus></canvas></div>
+    </div>
 
     <div><span id="infoMessage"></span></div>
 
     <div>
         <br>
-        <input type="checkbox" id="debug" on> Debug
+        <input type="checkbox" id="debug"> Debug
+    </div>
+    <div>
+        <br>
+        <input type="checkbox" id="irrigation"> Irrigation
     </div>
 </body>
 </html>

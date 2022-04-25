@@ -25,10 +25,12 @@ ASSET_MANAGER.downloadAll(updateLoadingBar, function () {
     canvasContext.fillText("Loading...", 400, 200);
 
     let world = new WorldBuilder().buildWorld()
-    let gameController = new GameController(canvasContext, world);
+    let wonder = new Wonder()
+    let gameController = new GameController(canvasContext, world, wonder);
 
     addClickListeners(gameController)
 
+    console.log("Everything loaded, starting controller")
     gameController.start();
 });
 
@@ -36,9 +38,28 @@ function addClickListeners(gameController) {
 
     //debug mode
     const checkbox = document.getElementById('debug')
-
+    checkbox.checked = false
     checkbox.addEventListener('change', (event) => {
         PARAMS.DEBUG = event.currentTarget.checked;
         gameController.redraw()
+    })
+
+    //irrigation
+    const irrigationCheckbox = document.getElementById('irrigation')
+    irrigationCheckbox.checked = false
+    irrigationCheckbox.addEventListener('change', (event) => {
+        if (event.currentTarget.checked) {
+            gameController.performCommand(new Irrigation())
+        } else {
+            //todo - dont want to just undo the last command
+            gameController.undoLastCommand()
+        }
+    })
+
+
+    //undo
+    const undo = document.getElementById('undo')
+    undo.addEventListener('change', (event) => {
+        gameController.undoLastCommand()
     })
 }

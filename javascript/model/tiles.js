@@ -1,5 +1,6 @@
 class TileType {
     static DESERT = new TileType('Desert');
+    static IRRIGATED_DESERT = new TileType('Irrigated Desert');
     static MOUNTAIN = new TileType('Mountain');
     static PASTURE = new TileType('Pasture');
     static ROCK = new TileType('Rock');
@@ -102,6 +103,17 @@ class Tile {
         this.roads.has(direction)
     }
 
+    irrigation(happened) {
+        if (happened) {
+            if (this.type === TileType.DESERT) {
+                this.type = TileType.IRRIGATED_DESERT
+            }
+        } else {
+            if (this.type === TileType.IRRIGATED_DESERT) {
+                this.type = TileType.DESERT
+            }
+        }
+    }
 
     toString() {
         return `[${this.type.name}]`;

@@ -1,4 +1,10 @@
 body {
+    font-family: 'Verdana', sans-serif;
+    font-size: 16px;
+    background: #ffe9ce;
+}
+
+#loadingBar {
     font-family: 'Press Start 2P', serif;
     font-size: 24px;
 }
@@ -10,11 +16,26 @@ canvas {
     margin-right: auto;
     display: block;
     font-size: 20px;
+    border: 1px solid black;
+}
+
+.horizontal {
+}
+
+.horizontal > div {
+    padding: 10px;
+    float: left;
+    clear: none;
+}
+
+#historyWrapper {
+    width: 200px;
 }
 
 div {
     margin-top: 10px;
     text-align: center;
+    clear: both;
 }
 
 #infoMessage {

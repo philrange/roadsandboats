@@ -15,4 +15,8 @@ class World {
         return this.hexToTileMap.get(hex);
     }
 
+    irrigation(happened) {
+        //convert desert to pasture
+        this.hexToTileMap.forEach(tile => tile.irrigation(happened))
+    }
 }
