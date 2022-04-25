@@ -1,10 +1,10 @@
 class View {
-    constructor(gameContext, canvasContext, world) {
+    constructor(gameContext, canvasContext, world, wonder) {
         this.canvasContext = canvasContext;
         let offset = {x: PARAMS.WORLD_OFFSET_X, y: PARAMS.WORLD_OFFSET_Y}
         this.worldDrawer = new WorldDrawer(canvasContext, world, offset)
-        this.wonderDrawer = new WonderDrawer(canvasContext)
-        this.commandHistoryDrawer = new CommandHistoryDrawer(gameContext, canvasContext)
+        this.wonderDrawer = new WonderDrawer(canvasContext, wonder)
+        this.commandHistoryDrawer = new CommandHistoryDrawer(gameContext)
     }
 
 

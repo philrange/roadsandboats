@@ -1,7 +1,6 @@
 class CommandHistoryDrawer {
-    constructor(gameContext, canvasContext) {
+    constructor(gameContext) {
         this.gameContext = gameContext;
-        this.canvasContext = canvasContext;
     }
 
     draw() {

@@ -50,16 +50,13 @@ function addClickListeners(gameController) {
     irrigationCheckbox.addEventListener('change', (event) => {
         if (event.currentTarget.checked) {
             gameController.performCommand(new Irrigation())
-        } else {
-            //todo - dont want to just undo the last command
-            gameController.undoLastCommand()
         }
     })
 
 
     //undo
     const undo = document.getElementById('undo')
-    undo.addEventListener('change', (event) => {
+    undo.addEventListener('click', (event) => {
         gameController.undoLastCommand()
     })
 }

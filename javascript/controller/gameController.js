@@ -1,7 +1,7 @@
 class GameController {
     constructor(canvasContext, world, wonder) {
         this.gameContext = new GameContext(this, world, wonder)
-        this.view = new View(this.gameContext, canvasContext, world);
+        this.view = new View(this.gameContext, canvasContext, world, wonder);
     }
 
 
@@ -22,6 +22,10 @@ class GameController {
 
     undoLastCommand() {
         this.gameContext.undoLastCommand()
+    }
+
+    showInfoMessage(text) {
+        this.view.showInfoMessage(text)
     }
 
 }

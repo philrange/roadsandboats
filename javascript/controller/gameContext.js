@@ -20,9 +20,13 @@ class GameContext {
     }
 
     undoLastCommand() {
-        let command = this.commandHistory.pop()
-        console.log("Undoing last command " + command)
-        command.undo(this)
+        if (this.commandHistory.length > 0) {
+            let command = this.commandHistory.pop()
+            console.log("Undoing last command " + command)
+            command.undo(this)
+        } else {
+            this.gameController.showInfoMessage("No previous actions to undo")
+        }
     }
 
     getLastXCommands(x) {
