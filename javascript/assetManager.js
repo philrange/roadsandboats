@@ -15,14 +15,14 @@ class AssetManager {
         return this.downloadQueue.length === this.successCount + this.errorCount;
     };
 
-    downloadAll(callback) {
+    downloadAll(updateLoadingBar, callback) {
         if (this.downloadQueue.length === 0) setTimeout(callback, 10);
 
         let assetManager = this;
         for (let i = 0; i < this.downloadQueue.length; i++) {
 
+            this.sleep(1000).then(() => {
             let path = this.downloadQueue[i];
-            console.log(path);
             let ext = path.substring(path.length - 3);
 
             switch (ext) {
@@ -32,6 +32,7 @@ class AssetManager {
                     img.addEventListener("load", function () {
                         console.log("Loaded " + this.src);
                         assetManager.successCount++;
+                        updateLoadingBar()
                         if (assetManager.isDone()) callback();
                     });
 
@@ -45,11 +46,24 @@ class AssetManager {
                     this.cache[path] = img;
                     break;
             }
+
+            })
         }
     };
+
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     getAsset(path) {
         return this.cache[path];
     };
 
-};
+    getDownloaded() {
+        return this.successCount
+    }
+
+    getQueueSize() {
+        return this.downloadQueue.length
+    }
+}

@@ -5,36 +5,54 @@
     <title>Roads & Boats</title>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Press+Start+2P">
-    <style>
-        body {
-            font-family: 'Press Start 2P', serif;
-            font-size: 24px;
-        }
-        canvas {
-            padding-left: 0;
-            padding-right: 0;
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-            font-size: 20px;
-        }
-        div {
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+
     <script type="text/javascript" src="./javascript/parameters.js"></script>
     <script type="text/javascript" src="./javascript/util.js"></script>
-    <script type="text/javascript" src="./javascript/assetmanager.js"></script>
+    <script type="text/javascript" src="./javascript/assetManager.js"></script>
     <script type="text/javascript" src="./javascript/main.js"></script>
+
+    <script type="text/javascript" src="./javascript/model/tiles.js"></script>
+    <script type="text/javascript" src="./javascript/model/transporters.js"></script>
+    <script type="text/javascript" src="./javascript/model/world.js"></script>
+    <script type="text/javascript" src="./javascript/model/worldBuilder.js"></script>
+    <script type="text/javascript" src="./javascript/model/gameState.js"></script>
+    <script type="text/javascript" src="./javascript/model/wonder.js"></script>
+
+    <script type="text/javascript" src="./javascript/view/view.js"></script>
+    <script type="text/javascript" src="./javascript/view/worldDrawer.js"></script>
+    <script type="text/javascript" src="./javascript/view/wonderDrawer.js"></script>
+    <script type="text/javascript" src="./javascript/view/commandHistoryDrawer.js"></script>
+
+    <script type="text/javascript" src="./javascript/thirdparty/honeycomb.min.js"></script>
+
+    <script type="text/javascript" src="./javascript/controller/gameController.js"></script>
+    <script type="text/javascript" src="./javascript/controller/gameContext.js"></script>
+    <script type="text/javascript" src="./javascript/controller/command.js"></script>
+
 </head>
-<body>
-    <div>
-        <br>Hello <br /> <br>
+<body onload="updateLoadingBar()">
+
+    <div><span id="loadingBar"></span></div>
+
+    <div class="horizontal">
+        <div id="historyWrapper">
+            <div><button id="undo">Undo</button></div>
+            <div>Last actions performed...</div>
+            <div><span id="commandHistory"></span></div>
+        </div>
+        <div><canvas id="gameWorld" width="1000" height="600"  tabindex ="0" autofocus></canvas></div>
     </div>
-    <canvas id="gameWorld" width="768" height="768" style="background: #049cd8;" tabindex ="0" autofocus></canvas>
+
+    <div><span id="infoMessage"></span></div>
 
     <div>
+        <br>
         <input type="checkbox" id="debug"> Debug
+    </div>
+    <div>
+        <br>
+        <input type="checkbox" id="irrigation"> Irrigation
     </div>
 </body>
 </html>

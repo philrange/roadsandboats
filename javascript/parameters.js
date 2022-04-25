@@ -1,4 +1,8 @@
 
 const PARAMS = {
-    DEBUG: true
+    DEBUG: false,
+    HEX_EDGE_LENGTH: 85,
+    WORLD_OFFSET_X: 300,
+    WORLD_OFFSET_Y: 100,
+    RIVER_COLOUR: '#0000ff'
 };

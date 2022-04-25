@@ -1,25 +1,62 @@
 let ASSET_MANAGER = new AssetManager();
 
-// spritesheets
-ASSET_MANAGER.queueDownload("./images/mario.png");
+// load images
+// ASSET_MANAGER.queueDownload("./images/mario.png");
 
 
-ASSET_MANAGER.downloadAll(function () {
-    // let gameEngine = new GameEngine();
+let downloaded = 0;
+let toDownload = ASSET_MANAGER.getQueueSize();
+
+function updateLoadingBar() {
+    downloaded = ASSET_MANAGER.getDownloaded()
+    let loadingBar = document.getElementById('loadingBar');
+    loadingBar.innerText = "Loaded " + downloaded + "/" + toDownload + " images."
+}
 
 
+ASSET_MANAGER.downloadAll(updateLoadingBar, function () {
+    //set up canvas
     let canvas = document.getElementById('gameWorld');
-    let ctx = canvas.getContext('2d');
-
+    let canvasContext = canvas.getContext('2d');
     PARAMS.CANVAS_WIDTH = canvas.width;
     PARAMS.CANVAS_HEIGHT = canvas.height;
 
-    // gameEngine.init(ctx);
+    canvasContext.font = "30px Arial";
+    canvasContext.fillText("Loading...", 400, 200);
 
-    // new SceneManager(gameEngine);
+    let world = new WorldBuilder().buildWorld()
+    let wonder = new Wonder()
+    let gameController = new GameController(canvasContext, world, wonder);
 
-    // gameEngine.start();
+    addClickListeners(gameController)
 
-    let mario = ASSET_MANAGER.getAsset("./images/mario.png")
-    ctx.drawImage(mario, 20, 30)
+    console.log("Everything loaded, starting controller")
+    gameController.start();
 });
+
+function addClickListeners(gameController) {
+
+    //debug mode
+    const checkbox = document.getElementById('debug')
+    checkbox.checked = false
+    checkbox.addEventListener('change', (event) => {
+        PARAMS.DEBUG = event.currentTarget.checked;
+        gameController.redraw()
+    })
+
+    //irrigation
+    const irrigationCheckbox = document.getElementById('irrigation')
+    irrigationCheckbox.checked = false
+    irrigationCheckbox.addEventListener('change', (event) => {
+        if (event.currentTarget.checked) {
+            gameController.performCommand(new Irrigation())
+        }
+    })
+
+
+    //undo
+    const undo = document.getElementById('undo')
+    undo.addEventListener('click', (event) => {
+        gameController.undoLastCommand()
+    })
+}
