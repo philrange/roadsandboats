@@ -118,7 +118,7 @@ class WorldDrawer {
                 return "#ffcc66"
             case TileType.PASTURE:
             case TileType.IRRIGATED_DESERT:
-                return "#22ee88"
+                return "#76ff71"
             case TileType.MOUNTAIN:
                 return "#760505"
             case TileType.SEA:

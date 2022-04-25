@@ -11,9 +11,10 @@ class Wonder {
         this.addRow(5)
         this.addRow(6)
         this.addRow(6)
-        this.currentRow = 1
+        this.currentRow = 0
 
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 16; i++) {
+            console.log("adding neutral block " + i)
             this.addBlock(new NeutralBlock())
         }
 
@@ -27,16 +28,25 @@ class Wonder {
         for (let i = 0; i < blocks; i++) {
             array[i] = new EmptySpace()
         }
-        this.rows.set(this.rows.size + 1, array)
+        this.rows.set(this.rows.size, array)
     }
 
     addBlock(block, gameController) {
+        // console.log("getting row " + this.currentRow)
         let row = this.rows.get(this.currentRow)
         for (let i = 0; i < row.length; i++) {
             let space = row[i]
+            // console.log("checking block at " + i)
             if (space instanceof EmptySpace) {
-                space.remove(gameController)
-                space = block
+                if (gameController != null) space.remove(gameController)
+                row[i] = block
+
+                if (i === (row.length - 1)) {
+                    console.log("end of row")
+                    this.currentRow++
+                }
+
+                break;
             }
         }
     }
