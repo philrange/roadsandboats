@@ -1,29 +1,21 @@
 class GameContext {
-    irrigationHappened = false
     commandHistory = []
-    constructor(gameController, world, wonder) {
+    constructor(gameController) {
         this.gameController = gameController;
-        this.world = world;
-        this.wonder = wonder;
-
     }
 
-    irrigation(happened) {
-        this.irrigationHappened = happened
-        this.world.irrigation(happened)
-        this.gameController.redraw()
-    }
 
     addCommandToHistory(command) {
         this.commandHistory.push(command)
-        console.log(this.commandHistory.length + " commands in history")
+        // console.log(this.commandHistory.length + " commands in history")
     }
 
     undoLastCommand() {
+        console.log(this.commandHistory.length)
         if (this.commandHistory.length > 0) {
             let command = this.commandHistory.pop()
             console.log("Undoing last command " + command)
-            command.undo(this)
+            command.undo(this.gameController)
         } else {
             this.gameController.showInfoMessage("No previous actions to undo")
         }

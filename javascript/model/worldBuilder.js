@@ -6,9 +6,9 @@ class WorldBuilder {
             size: PARAMS.HEX_EDGE_LENGTH       // default: 1
         })
 
-        const Grid = Honeycomb.defineGrid(Hex)
+        const honeycombGrid = Honeycomb.defineGrid(Hex)
 
-        const worldGrid = Grid.rectangle({ width: 4, height: 3 })
+        const worldGrid = honeycombGrid.rectangle({ width: 4, height: 3 })
         let tiles = []
         tiles.push(new Tile(TileType.MOUNTAIN, [Direction.EAST]))
         tiles.push(new Tile(TileType.WOODS, [Direction.WEST, Direction.EAST]))
@@ -33,7 +33,7 @@ class WorldBuilder {
 
 
 
-        let world = new World("testWorld", hexToTileMap, worldGrid)
+        let world = new World("testWorld", hexToTileMap, worldGrid, honeycombGrid)
 
 
         return world;

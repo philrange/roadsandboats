@@ -14,7 +14,6 @@ class Wonder {
         this.currentRow = 0
 
         for (let i = 0; i < 16; i++) {
-            console.log("adding neutral block " + i)
             this.addBlock(new NeutralBlock())
         }
 
@@ -42,7 +41,6 @@ class Wonder {
                 row[i] = block
 
                 if (i === (row.length - 1)) {
-                    console.log("end of row")
                     this.currentRow++
                 }
 
@@ -53,6 +51,27 @@ class Wonder {
 
     getRows() {
         return this.rows
+    }
+
+    getScore() {
+        let score = 0
+        for (const row of this.rows) {
+            if (this.containsPlayerBlock(row)) {
+                score += 10;
+            }
+        }
+
+        return score;
+    }
+
+    containsPlayerBlock(row) {
+        for (const block of row) {
+            if (block instanceof PlayerBlock) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

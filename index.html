@@ -22,6 +22,7 @@
     <script type="text/javascript" src="./javascript/view/view.js"></script>
     <script type="text/javascript" src="./javascript/view/worldDrawer.js"></script>
     <script type="text/javascript" src="./javascript/view/wonderDrawer.js"></script>
+    <script type="text/javascript" src="./javascript/view/phaseDrawer.js"></script>
     <script type="text/javascript" src="./javascript/view/commandHistoryDrawer.js"></script>
 
     <script type="text/javascript" src="./javascript/thirdparty/honeycomb.min.js"></script>
@@ -36,15 +37,29 @@
     <div><span id="loadingBar"></span></div>
 
     <div class="horizontal">
+
         <div id="historyWrapper">
             <div><button id="undo">Undo</button></div>
             <div>Last actions performed...</div>
             <div><span id="commandHistory"></span></div>
         </div>
-        <div><canvas id="gameWorld" width="1000" height="600"  tabindex ="0" autofocus></canvas></div>
+
+        <div><canvas id="gameWorld" width="1200" height="650"  tabindex ="0" autofocus></canvas></div>
+
+        <div>
+            <div id="buttons">
+                <div><span id="gameStage">Place Home Marker</span></div>
+                <div><span id="turn"></span></div>
+                <div><span id="phase"></span></div>
+                <div><button id="startGame">Start Game</button></div>
+                <div><button id="advancePhase">Advance Phase</button></div>
+            </div>
+
+            <div id="inventory"></div>
+        </div>
     </div>
 
-    <div><span id="infoMessage"></span></div>
+    <div><span id="infoMessage">Click a hex to place your home marker</span></div>
 
     <div>
         <br>

@@ -1,8 +1,10 @@
 class WonderDrawer {
     blockX = 30
     blockY = 15
-    xOffset = 40
-    yOffset = 370
+    x = 30
+    y = 50
+    width= 250
+    height = 345
     gap = 10
     maxWidth = 6
 
@@ -16,14 +18,13 @@ class WonderDrawer {
 
         let canvas = this.canvasContext
         canvas.fillStyle = 'black'
-        canvas.fillRect(30, 50, 250, 345)
+        canvas.fillRect(this.x, this.y, this.width, this.height)
 
         canvas.fillStyle = 'red'
         canvas.font = "20px Arial";
         canvas.fillText("Wonder", 100, 100)
 
         let rows = this.wonder.getRows();
-        console.log(rows)
 
         rows.forEach((blocks, rowNumber) => this.drawBlocks(rowNumber, blocks))
     }
@@ -32,14 +33,15 @@ class WonderDrawer {
     drawBlocks(rowNumber, blocks) {
         let canvas = this.canvasContext
 
-        let y = this.yOffset - (rowNumber * (this.blockY + this.gap))
+        let y = this.height + this.y - ((rowNumber + 1) * (this.blockY + this.gap))
         //offset the smaller rows to make a pyramid
-        let x = this.xOffset + ((this.maxWidth - blocks.length)/2) * (this.blockX + this.gap)
+        let x = this.x + ((this.maxWidth - blocks.length)/2) * (this.blockX + this.gap) + this.gap
 
         for (let i = 0; i < blocks.length; i++) {
             let block = blocks[i]
             canvas.fillStyle = this.getBlockColour(block)
             canvas.fillRect(x, y, this.blockX, this.blockY)
+            //todo - add highlight around the edge to make them look 3d
             if (block instanceof EmptySpaceIrrigation) {
                 canvas.fillStyle = 'black'
                 canvas.font = "8px Arial"
@@ -51,11 +53,11 @@ class WonderDrawer {
 
     getBlockColour(block) {
         if (block instanceof NeutralBlock) {
-            return "#ffcc22"
+            return "#938e88"
         } else if (block instanceof EmptySpace) {
             return "white"
         } else if (block instanceof PlayerBlock) {
-            return "red"
+            return "#b70318"
         }
     }
 }

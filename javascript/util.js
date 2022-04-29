@@ -14,9 +14,9 @@ class Direction {
     }
 
     opposite() {
-        let keys = Object.keys(Direction)
-        let opposite = (keys.indexOf(this.name) + 4) % 8
-        return keys[opposite];
+        let values = Object.values(Direction)
+        let opposite = (values.indexOf(this) + 4) % 8
+        return values[opposite];
     }
 
     toString() {

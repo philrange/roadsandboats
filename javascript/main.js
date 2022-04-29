@@ -25,8 +25,7 @@ ASSET_MANAGER.downloadAll(updateLoadingBar, function () {
     canvasContext.fillText("Loading...", 400, 200);
 
     let world = new WorldBuilder().buildWorld()
-    let wonder = new Wonder()
-    let gameController = new GameController(canvasContext, world, wonder);
+    let gameController = new GameController(canvasContext, world);
 
     addClickListeners(gameController)
 
@@ -35,6 +34,12 @@ ASSET_MANAGER.downloadAll(updateLoadingBar, function () {
 });
 
 function addClickListeners(gameController) {
+
+    //canvas
+    const gameWorld = document.getElementById('gameWorld')
+    gameWorld.addEventListener('click', ({ offsetX, offsetY }) => {
+        gameController.handleClick(offsetX, offsetY)
+    })
 
     //debug mode
     const checkbox = document.getElementById('debug')
@@ -53,10 +58,25 @@ function addClickListeners(gameController) {
         }
     })
 
-
     //undo
     const undo = document.getElementById('undo')
     undo.addEventListener('click', (event) => {
         gameController.undoLastCommand()
+    })
+
+    //advance phase
+    const advancePhase = document.getElementById('advancePhase')
+    advancePhase.disabled = true
+    advancePhase.addEventListener('click', (event) => {
+        gameController.performCommand(new AdvancePhase())
+    })
+
+    //start game
+    const startGame = document.getElementById('startGame')
+    startGame.addEventListener('click', (event) => {
+        gameController.performCommand(new StartGame())
+        advancePhase.disabled = false
+        startGame.hidden = true
+        document.getElementById('loadingBar').innerText = ""
     })
 }

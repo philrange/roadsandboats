@@ -1,9 +1,9 @@
 class View {
-    constructor(gameContext, canvasContext, world, wonder) {
-        this.canvasContext = canvasContext;
+    constructor(gameContext, canvasContext, world, wonder, gameState) {
         let offset = {x: PARAMS.WORLD_OFFSET_X, y: PARAMS.WORLD_OFFSET_Y}
         this.worldDrawer = new WorldDrawer(canvasContext, world, offset)
         this.wonderDrawer = new WonderDrawer(canvasContext, wonder)
+        this.phaseDrawer = new PhaseDrawer(canvasContext, gameState)
         this.commandHistoryDrawer = new CommandHistoryDrawer(gameContext)
     }
 
@@ -11,14 +11,8 @@ class View {
     draw() {
         this.worldDrawer.draw()
         this.wonderDrawer.draw()
+        this.phaseDrawer.draw()
         this.commandHistoryDrawer.draw()
-    }
-
-
-
-    clearLoadingBar() {
-        let loadingBar = document.getElementById('loadingBar');
-        loadingBar.innerText = "";
     }
 
     showInfoMessage(text) {
