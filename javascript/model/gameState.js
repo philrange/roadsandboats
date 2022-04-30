@@ -1,20 +1,38 @@
 class GameState {
-    placedHomeMarker = false
-    currentPhase = null
-    currentTurn = 0
-
-    advancePhase() {
-        this.currentPhase = Phase.getNextPhase(this.currentPhase)
-        if (this.currentPhase === Phase.BUILDING) this.currentTurn++
+    constructor(wonder) {
+        this.wonder = wonder
     }
 
-    undoAdvancePhase() {
+    placedHomeMarker = false
+    currentPhase = null
+    currentTurn = 1
+
+    advancePhase(gameController) {
+        if (this.currentPhase === Phase.WONDER) {
+            this.currentTurn++
+            //place neutral block in wonder
+            this.wonder.addBlock(new NeutralBlock(), gameController)
+        }
+
+        this.currentPhase = Phase.getNextPhase(this.currentPhase)
+    }
+
+    undoAdvancePhase(gameController) {
+        if (this.currentPhase === Phase.BUILDING) {
+            this.currentTurn--
+            //todo - handle undos here
+            // this.wonder.removeBlock(new NeutralBlock(), gameController)
+        }
+
         this.currentPhase = Phase.getPreviousPhase(this.currentPhase)
-        if (this.currentPhase === Phase.WONDER) this.currentTurn--
     }
 
     getCurrentPhase() {
         return this.currentPhase
+    }
+
+    getCurrentTurn() {
+        return this.currentTurn
     }
 
     havePlacedHomeMarker() {

@@ -73,6 +73,7 @@ function addClickListeners(gameController) {
 
     //start game
     const startGame = document.getElementById('startGame')
+    startGame.hidden = true
     startGame.addEventListener('click', (event) => {
         gameController.performCommand(new StartGame())
         advancePhase.disabled = false

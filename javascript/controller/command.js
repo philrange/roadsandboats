@@ -31,11 +31,11 @@ class AdvancePhase extends Command {
     }
 
     perform(gameController) {
-        gameController.getGameState().advancePhase()
+        gameController.getGameState().advancePhase(gameController)
     }
 
     undo(gameController) {
-        gameController.getGameState().undoAdvancePhase()
+        gameController.getGameState().undoAdvancePhase(gameController)
     }
 }
 

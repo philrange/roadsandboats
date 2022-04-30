@@ -5,6 +5,7 @@ class View {
         this.wonderDrawer = new WonderDrawer(canvasContext, wonder)
         this.phaseDrawer = new PhaseDrawer(canvasContext, gameState)
         this.commandHistoryDrawer = new CommandHistoryDrawer(gameContext)
+        this.gameState = gameState
     }
 
 
@@ -13,6 +14,15 @@ class View {
         this.wonderDrawer.draw()
         this.phaseDrawer.draw()
         this.commandHistoryDrawer.draw()
+        const gameStage = document.getElementById('gameStage')
+        this.writeCurrentTurnAndPhase(gameStage);
+
+    }
+
+    writeCurrentTurnAndPhase(gameStage) {
+        if (this.gameState.havePlacedHomeMarker()) {
+            gameStage.innerText = "Turn " + this.gameState.getCurrentTurn() + ": " + this.gameState.getCurrentPhase().name
+        }
     }
 
     showInfoMessage(text) {

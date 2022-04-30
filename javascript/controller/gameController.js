@@ -2,8 +2,8 @@ class GameController {
     constructor(canvasContext, world) {
         this.world = world
         let wonder = new Wonder()
-        this.gameState = new GameState()
-        this.gameContext = new GameContext(this, world, wonder, this.gameState)
+        this.gameState = new GameState(wonder)
+        this.gameContext = new GameContext(this)
         this.view = new View(this.gameContext, canvasContext, world, wonder, this.gameState);
     }
 
@@ -50,6 +50,8 @@ class GameController {
             if (!this.getGameState().havePlacedHomeMarker()) {
                 //move home marker to here
                 console.log("Moved home marker to " + tile)
+                const startGame = document.getElementById('startGame')
+                startGame.hidden = false
             } else {
                 //do something
             }
