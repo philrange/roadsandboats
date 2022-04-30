@@ -53,3 +53,18 @@ class StartGame extends Command {
         gameController.getGameState().undoPlaceHomeMarker()
     }
 }
+
+class AddBlock extends Command {
+
+    toString() {
+        return "Add Wonder Block"
+    }
+
+    perform(gameController) {
+        gameController.getGameState().addPlayerBlock(gameController)
+    }
+
+    undo(gameController) {
+        gameController.getGameState().undoPlaceHomeMarker()
+    }
+}

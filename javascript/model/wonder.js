@@ -1,24 +1,30 @@
+
 class Wonder {
     constructor() {
         this.rows = new Map()
         this.addRow(4)
         this.addRow(4)
         this.addRow(4)
-        this.addRow(4)
         this.addRow(5)
         this.addRow(5)
         this.addRow(5)
         this.addRow(5)
         this.addRow(6)
         this.addRow(6)
+        this.addRow(6)
+        this.addRow(6)
+        this.addRow(6)
+        this.addRow(7)
+        this.addRow(7)
+        this.addRow(7)
         this.currentRow = 0
 
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < 17; i++) {
             this.addBlock(new NeutralBlock())
         }
 
-        let row5 = this.rows.get(4)
-        row5[0] = new EmptySpaceIrrigation()
+        let row10 = this.rows.get(9)
+        row10[0] = new EmptySpaceIrrigation()
     }
 
 

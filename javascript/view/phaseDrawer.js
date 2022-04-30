@@ -1,11 +1,12 @@
 class PhaseDrawer {
-    x = 30
-    y = 400
-    width = 250
+    x = 20
+    y = 430
+    width = 316
     height = 60
     phaseWidth = 50
     phaseHeight = 40
-    gap = 10
+    gapX = 24
+    gapY = 10
 
     constructor(canvasContext, gameState) {
         this.canvasContext = canvasContext
@@ -19,20 +20,20 @@ class PhaseDrawer {
         canvas.fillStyle = 'black'
         canvas.fillRect(this.x, this.y, this.width, this.height)
 
-        let xOffset = this.x + this.gap
-        let yOffset = this.y + this.gap
+        let xOffset = this.x + this.gapX
+        let yOffset = this.y + this.gapY
         for (const phase of Object.keys(Phase)) {
             canvas.fillStyle = 'beige'
             canvas.fillRect(xOffset, yOffset, this.phaseWidth, this.phaseHeight)
-            xOffset += this.gap + this.phaseWidth
+            xOffset += this.gapX + this.phaseWidth
         }
 
         if (this.gameState.havePlacedHomeMarker()) {
-            //draw marker
+            //draw phase marker
             let phase = this.gameState.getCurrentPhase()
             let index = Object.values(Phase).indexOf(phase);
-            let x = this.x + this.gap + this.phaseWidth / 2 + (index * (this.gap + this.phaseWidth))
-            let y = this.y + this.gap + (this.phaseHeight / 2)
+            let x = this.x + this.gapX + this.phaseWidth / 2 + (index * (this.gapX + this.phaseWidth))
+            let y = this.y + this.gapY + (this.phaseHeight / 2)
             canvas.fillStyle = 'red'
             canvas.beginPath()
             canvas.arc(x, y, 18, 0, Math.PI * 2)

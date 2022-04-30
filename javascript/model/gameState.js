@@ -49,6 +49,12 @@ class GameState {
         this.currentPhase = null
     }
 
+    addPlayerBlock(gameController) {
+        this.wonder.addBlock(new PlayerBlock(), gameController)
+
+        //todo add undo for this
+    }
+
 }
 
 class Phase {

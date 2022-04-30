@@ -21,6 +21,10 @@ class GameContext {
         }
     }
 
+    getCommandHistorySize() {
+        return this.commandHistory.length
+    }
+
     getLastXCommands(x) {
         return this.commandHistory.slice(-x)
     }

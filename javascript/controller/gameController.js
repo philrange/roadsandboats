@@ -51,7 +51,7 @@ class GameController {
                 //move home marker to here
                 console.log("Moved home marker to " + tile)
                 const startGame = document.getElementById('startGame')
-                startGame.hidden = false
+                startGame.disabled = false
             } else {
                 //do something
             }

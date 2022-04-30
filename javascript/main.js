@@ -22,7 +22,7 @@ ASSET_MANAGER.downloadAll(updateLoadingBar, function () {
     PARAMS.CANVAS_HEIGHT = canvas.height;
 
     canvasContext.font = "30px Arial";
-    canvasContext.fillText("Loading...", 400, 200);
+    canvasContext.fillText("Loading...", 500, 200);
 
     let world = new WorldBuilder().buildWorld()
     let gameController = new GameController(canvasContext, world);
@@ -30,6 +30,8 @@ ASSET_MANAGER.downloadAll(updateLoadingBar, function () {
     addClickListeners(gameController)
 
     console.log("Everything loaded, starting controller")
+    document.getElementById('loadingBar').hidden = true
+    // document.getElementById('loadingBar').innerText = ""
     gameController.start();
 });
 
@@ -49,13 +51,10 @@ function addClickListeners(gameController) {
         gameController.redraw()
     })
 
-    //irrigation
-    const irrigationCheckbox = document.getElementById('irrigation')
-    irrigationCheckbox.checked = false
-    irrigationCheckbox.addEventListener('change', (event) => {
-        if (event.currentTarget.checked) {
-            gameController.performCommand(new Irrigation())
-        }
+    //add block
+    const addBlock = document.getElementById('addBlock')
+    addBlock.addEventListener('click', (event) => {
+        gameController.performCommand(new AddBlock())
     })
 
     //undo
@@ -73,11 +72,10 @@ function addClickListeners(gameController) {
 
     //start game
     const startGame = document.getElementById('startGame')
-    startGame.hidden = true
+    startGame.disabled = true
     startGame.addEventListener('click', (event) => {
         gameController.performCommand(new StartGame())
         advancePhase.disabled = false
         startGame.hidden = true
-        document.getElementById('loadingBar').innerText = ""
     })
 }
