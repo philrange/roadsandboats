@@ -1,0 +1,40 @@
+roads and boats
+
+
+work out how to do roads when there's a river splitting a tile...
+
+add things to draw buildings/transporters/goods
+
+
+how to interact with the board? maybe a button outside to end the phase, but click on transporters to do stuff? and a label & button(s) outside to handle when there are options like whether to put goods from a transporter into a factory
+
+add research bar display
+add research to game state
+
+
+Commands
+
+Place home maker
+Triggers game/phase start popup
+Accept popup = start phase command
+Cycle through each factory and send a produce command
+Cycle through potential transporters and create a popup which can send a consume command
+Cycle through goods on tile and send a consume command
+Cycle through animals and send a reproduce command
+Phase end/start popup
+Wait for player to select a transporter to move
+Show available moves
+Click to send move command
+Click to send load/unload command
+Phase start
+Select a transporter to build with
+Show list of available builds
+Click to build and send build command
+For roads, click again to show where to build to
+Phase start
+Option to build wonder, click to select 2 goods to use
+Send build wonder action
+Send build wonder action for dummy player
+End of phase
+Update irrigation status
+
