@@ -2,7 +2,7 @@ class GameController {
     constructor(canvasContext, world) {
         this.world = world
         let wonder = new Wonder()
-        this.gameState = new GameState(wonder)
+        this.gameState = new GameState(wonder, world)
         this.gameContext = new GameContext(this)
         this.view = new View(this.gameContext, canvasContext, world, wonder, this.gameState);
     }
@@ -42,14 +42,14 @@ class GameController {
     }
 
     handleClick(x, y) {
-        console.log("clicked on " + x + " " + y)
         let tile = this.world.getTileForCoordinates(x - PARAMS.WORLD_OFFSET_X, y - PARAMS.WORLD_OFFSET_Y)
-        console.log("clicked on tile: " + tile)
+        // console.log("clicked on tile: " + tile)
         if (tile != null) {
 
             if (!this.getGameState().havePlacedHomeMarker()) {
                 //move home marker to here
                 console.log("Moved home marker to " + tile)
+                this.performCommand(new SetHomeMarker(tile, x, y))
                 const startGame = document.getElementById('startGame')
                 startGame.disabled = false
             } else {

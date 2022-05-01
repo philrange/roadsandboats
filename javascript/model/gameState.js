@@ -1,9 +1,11 @@
 class GameState {
-    constructor(wonder) {
+    constructor(wonder, world) {
         this.wonder = wonder
+        this.world = world
     }
 
     placedHomeMarker = false
+    homeMarkerTile = null
     currentPhase = null
     currentTurn = 1
 
@@ -35,11 +37,22 @@ class GameState {
         return this.currentTurn
     }
 
+    getHomeMarkerTile() {
+        return this.homeMarkerTile
+    }
+
+    moveHomeMarker(tile, x, y) {
+        this.world.clearHomeMarker()
+        this.homeMarkerTile = tile
+        let area = tile.getBuildingArea(x, y)
+        area.setHomeMarker()
+    }
+
     havePlacedHomeMarker() {
         return this.placedHomeMarker
     }
 
-    placeHomeMarker() {
+    confirmPlaceHomeMarker() {
         this.placedHomeMarker = true
         this.currentPhase = Phase.PRODUCTION
     }

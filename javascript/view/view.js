@@ -1,5 +1,6 @@
 class View {
     constructor(gameContext, canvasContext, world, wonder, gameState) {
+        this.canvas = canvasContext
         let offset = {x: PARAMS.WORLD_OFFSET_X, y: PARAMS.WORLD_OFFSET_Y}
         this.worldDrawer = new WorldDrawer(canvasContext, world, offset)
         this.wonderDrawer = new WonderDrawer(canvasContext, wonder)
@@ -10,10 +11,18 @@ class View {
 
 
     draw() {
+        //clear background
+        this.canvas.fillStyle = PARAMS.BACKGROUND_COLOUR
+        this.canvas.fillRect(0, 0, PARAMS.CANVAS_WIDTH, PARAMS.CANVAS_HEIGHT)
+        this.canvas.fill()
+
+        //draw stuff
         this.worldDrawer.draw()
         this.wonderDrawer.draw()
         this.phaseDrawer.draw()
         this.commandHistoryDrawer.draw()
+
+        //write to outer page
         const gameStage = document.getElementById('gameStage')
         this.writeCurrentTurnAndPhase(gameStage);
 

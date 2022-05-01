@@ -46,11 +46,31 @@ class StartGame extends Command {
     }
 
     perform(gameController) {
-        gameController.getGameState().placeHomeMarker()
+        gameController.getGameState().confirmPlaceHomeMarker()
     }
 
     undo(gameController) {
         gameController.getGameState().undoPlaceHomeMarker()
+    }
+}
+
+class SetHomeMarker extends Command {
+    constructor(tile, x, y) {
+        super();
+        this.tile = tile
+        this.x = x
+        this.y = y
+    }
+
+    toString() {
+        return "Set Home Marker to " + this.tile + "[" + this.x + ", " + this.y + "]"
+    }
+
+    perform(gameController) {
+        gameController.getGameState().moveHomeMarker(this.tile, this.x, this.y)
+    }
+
+    undo(gameController) {
     }
 }
 

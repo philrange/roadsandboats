@@ -46,13 +46,14 @@ class WorldDrawer {
             //draw stuff on top
             this.drawRivers(hexOriginPoint, centre, hex, tile)
 
+            this.drawHomeMarker(tile, centre)
+
             if (PARAMS.DEBUG) {
                 canvas.font = "10px Arial";
                 canvas.fillStyle = 'black'
                 canvas.fillText(hex, centre.x, centre.y);
             }
         }
-
 
     }
 
@@ -61,20 +62,32 @@ class WorldDrawer {
         tile.getRiverExits().forEach(direction => {
             // console.log("found river for " + hex + " " + tile)
             let corners = this.getCornersForDirection(direction)
-            let middle = this.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
+            let middleOfEdge = this.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
             // console.log("drawing river " + centre + " " + middle)
             canvas.lineWidth = 5;
             canvas.strokeStyle = PARAMS.RIVER_COLOUR
             canvas.fillStyle = '#0000ff'
             canvas.beginPath();
             canvas.moveTo(centre.x, centre.y);
-            canvas.lineTo(middle.x, middle.y);
+            canvas.lineTo(middleOfEdge.x, middleOfEdge.y);
             canvas.stroke();
             if (PARAMS.DEBUG) {
                 canvas.beginPath()
                 canvas.arc(centre.x, centre.y, 2, 0, Math.PI * 2)
-                canvas.arc(middle.x, middle.y, 5, 0, Math.PI * 2)
+                canvas.arc(middleOfEdge.x, middleOfEdge.y, 5, 0, Math.PI * 2)
                 canvas.fill()
+            }
+        })
+    }
+
+    drawHomeMarker(tile, centre) {
+        tile.getBuildingAreas().forEach(area => {
+            if (area.hasHomeMarker()) {
+                console.log("drawing home marker")
+                let x = centre.x - (PARAMS.HOME_MARKER_SIZE/2);
+                let y = centre.y - (PARAMS.HOME_MARKER_SIZE/2);
+                let size = PARAMS.HOME_MARKER_SIZE;
+                this.canvasContext.drawImage(ASSET_MANAGER.getAsset("./images/home_marker.png"), x, y, size, size)
             }
         })
     }

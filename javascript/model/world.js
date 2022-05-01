@@ -6,11 +6,9 @@ class World {
         this.honeycombGrid = honeycombGrid
     }
 
-
     getGrid() {
         return this.worldGrid
     }
-
 
     getTileForHex(hex) {
         return this.hexToTileMap.get(hex);
@@ -23,11 +21,12 @@ class World {
 
     getTileForCoordinates(x, y) {
         let gridCoords = this.honeycombGrid.pointToHex(x, y);
-        // console.log("grid coords: " + gridCoords)
         let hex = this.worldGrid.get(gridCoords)
-        // console.log("hex: " + hex)
         let tile = this.getTileForHex(hex)
-        // console.log("tile: " + tile)
         return tile
+    }
+
+    clearHomeMarker() {
+        this.hexToTileMap.forEach(tile => tile.getBuildingAreas().forEach(area => area.removeHomeMarker()))
     }
 }

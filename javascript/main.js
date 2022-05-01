@@ -2,6 +2,7 @@ let ASSET_MANAGER = new AssetManager();
 
 // load images
 // ASSET_MANAGER.queueDownload("./images/mario.png");
+ASSET_MANAGER.queueDownload("./images/home_marker.png");
 
 
 let downloaded = 0;

@@ -17,9 +17,28 @@ class TileType {
 class BuildingArea {
     constructor(id) {
         this.id = id;
+        this.hasHome = false;
         this.building = null;
         this.goods = {};
         this.transporters = {};
+    }
+
+    toString() {
+        return this.id
+    }
+
+    setHomeMarker() {
+        console.log("setting home marker to area " + this.id)
+        this.hasHome = true
+    }
+
+    removeHomeMarker() {
+        console.log("removing home")
+        this.hasHome = false
+    }
+
+    hasHomeMarker() {
+        return this.hasHome
     }
 
     getId() {
@@ -60,13 +79,16 @@ class Tile {
     constructor(type, riverExits = []) {
         this.type = type
         this.riverExits = riverExits
-        this.buildingAreas = [];
+        this.buildingAreas = new Map();
         this.links = new Map();
         this.roads = new Map();
-        this.buildingAreas.push("area1")
-        for (let i = 0; i < riverExits.size; i++) {
-            this.buildingAreas.push("area" + (i + 1))
+        this.buildingAreas.set("area1", new BuildingArea("area1"))
+        for (let i = 2; i <= riverExits.length; i++) {
+            let areaId = "area" + i;
+            this.buildingAreas.set(areaId, new BuildingArea(areaId))
         }
+
+        // console.log("tile " + this.toString() + " has areas " + this.buildingAreas)
     }
 
     getType() {
@@ -77,12 +99,23 @@ class Tile {
         return this.riverExits
     }
 
-    canBuild() {
-        return this.type !== TileType.DESERT && this.buildingAreas.every(area => area.hasBuilding() === false);
+    getBuildingAreas() {
+        return this.buildingAreas
     }
+
+    // canBuild() {
+    //     return this.type !== TileType.DESERT && this.buildingAreas.values().every(area => area.hasBuilding() === false);
+    // }
 
     build(building, areaId) {
         this.buildingAreas.get(areaId).build(building)
+    }
+
+    getBuildingArea(x, y) {
+        console.log("get building area at " + x + " " + y)
+        console.log(this.buildingAreas)
+        //todo - keep track of where the river separated areas are
+        return this.buildingAreas.get("area1")
     }
 
     addLink(direction, tile) {
