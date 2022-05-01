@@ -43,3 +43,16 @@ class Good {
         return `Color.${this.name}`;
     }
 }
+
+class TransporterType {
+    static DONKEY = new TransporterType('Donkey');
+    static WAGON = new TransporterType('Wagon');
+    static RAFT = new TransporterType('Raft');
+
+    constructor(name) {
+        this.name = name;
+    }
+    toString() {
+        return this.name;
+    }
+}

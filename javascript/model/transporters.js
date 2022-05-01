@@ -5,6 +5,7 @@ class Transporter {
         this.movement = movement;
         this.goods = new Map();
         this.movedThisTurn = 0;
+        this.highlighted = false
     }
 
     isFull() {
@@ -49,4 +50,12 @@ class Transporter {
         this.movedThisTurn = 0;
     }
 
+    highlight(isHighlighted) {
+        this.highlighted = isHighlighted
+    }
+
+    isHighlighted() {
+        return this.highlighted
+    }
 }
+

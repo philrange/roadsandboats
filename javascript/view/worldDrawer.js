@@ -3,6 +3,7 @@ class WorldDrawer {
         this.canvasContext = canvasContext
         this.world = world
         this.offset = offset;
+        this.transporterDrawer = new TransporterDrawer(canvasContext)
     }
 
     draw() {
@@ -47,6 +48,8 @@ class WorldDrawer {
             this.drawRivers(hexOriginPoint, centre, hex, tile)
 
             this.drawHomeMarker(tile, centre)
+
+            this.transporterDrawer.draw(tile, centre)
 
             if (PARAMS.DEBUG) {
                 canvas.font = "10px Arial";
