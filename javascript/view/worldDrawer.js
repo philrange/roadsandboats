@@ -67,7 +67,7 @@ class WorldDrawer {
             let corners = this.getCornersForDirection(direction)
             let middleOfEdge = this.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
             // console.log("drawing river " + centre + " " + middle)
-            canvas.lineWidth = 5;
+            canvas.lineWidth = 8
             canvas.strokeStyle = PARAMS.RIVER_COLOUR
             canvas.fillStyle = '#0000ff'
             let distanceBetweenPoints = Math.sqrt(Math.pow(middleOfEdge.x - centre.x, 2) + Math.pow(middleOfEdge.y - centre.y, 2))
@@ -90,18 +90,19 @@ class WorldDrawer {
 
             canvas.lineTo(middleOfEdge.x, middleOfEdge.y);
             canvas.stroke();
-            if (PARAMS.DEBUG) {
+            // if (PARAMS.DEBUG) {
+            //add some circles to cover up joins
                 canvas.beginPath()
                 canvas.arc(centre.x, centre.y, 2, 0, Math.PI * 2)
                 canvas.arc(middleOfEdge.x, middleOfEdge.y, 5, 0, Math.PI * 2)
                 canvas.fill()
-            }
+            // }
         })
     }
 
     perturb(number) {
         // console.log("number " + number)
-        let randomNoise = (Math.floor(Math.random() * 40) - 20)/100
+        let randomNoise = (Math.floor(Math.random() * 50) - 20)/100
         // console.log("noise " + randomNoise)
         let perturbedNumber = number * randomNoise
         // console.log("perturbedNumber " + perturbedNumber)
