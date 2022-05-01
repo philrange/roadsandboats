@@ -11,6 +11,8 @@ how to interact with the board? maybe a button outside to end the phase, but cli
 add research bar display
 add research to game state
 
+add some tests - could set up a new game, run through a list of saved commands and check the end state
+
 
 Commands
 

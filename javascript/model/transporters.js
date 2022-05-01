@@ -51,7 +51,6 @@ class Transporter {
     }
 
     highlight(isHighlighted) {
-        console.log("highlighting ")
         this.highlighted = isHighlighted
     }
 
