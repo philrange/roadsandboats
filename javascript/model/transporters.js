@@ -18,7 +18,7 @@ class Transporter {
 
         let currentAmount = this.goods.has(good) ? this.goods.get(good) : 0;
         currentAmount++;
-        this.goods.put(good, currentAmount);
+        this.goods.set(good, currentAmount);
     }
 
     unloadGood(good) {
@@ -30,7 +30,7 @@ class Transporter {
         }
 
         currentAmount--;
-        this.goods.put(good, currentAmount);
+        this.goods.set(good, currentAmount);
     }
 
     listGoods() {
@@ -51,6 +51,7 @@ class Transporter {
     }
 
     highlight(isHighlighted) {
+        console.log("highlighting ")
         this.highlighted = isHighlighted
     }
 
