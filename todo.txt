@@ -3,10 +3,14 @@ roads and boats
 
 work out how to do roads when there's a river splitting a tile...
 
+get "middle" of section, get edges where rivers are, find the middle point of them, and add an area between all
+the corners, river edges and centre. add coords for home marker etc 1/3 of the way between middle point and centre
+
 add things to draw buildings/transporters/goods
 
 
-how to interact with the board? maybe a button outside to end the phase, but click on transporters to do stuff? and a label & button(s) outside to handle when there are options like whether to put goods from a transporter into a factory
+how to interact with the board? maybe a button outside to end the phase, but click on transporters to do stuff?
+add a label & button(s) outside to handle when there are options like whether to put goods from a transporter into a factory
 
 add research bar display
 add research to game state
