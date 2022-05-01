@@ -15,12 +15,13 @@ class TileType {
 }
 
 class BuildingArea {
-    constructor(id) {
+    constructor(id, boundingDirections) {
         this.id = id;
         this.hasHome = false;
         this.building = null;
         this.goods = {};
         this.transporters = {};
+        this.boundingDirections = boundingDirections
     }
 
     toString() {
@@ -71,6 +72,38 @@ class BuildingArea {
     listGoods() {
         return this.goods;
     }
+
+    getCornerPoints(corners) {
+        let cornerPoints = []
+
+        let index = 0
+        for (const direction of this.boundingDirections) {
+            let cornerIndexes = direction.getCornersForDirection()
+            let corner1 = corners[cornerIndexes.a];
+            let corner2 = corners[cornerIndexes.b];
+            let lastIndex = this.boundingDirections.length - 1;
+            if (index === 0 || index === lastIndex) {
+                cornerPoints.push(Util.findMiddle(corner1, corner2))
+            }
+            if (index !== lastIndex) cornerPoints.push(corner2)
+            index++
+        }
+
+        return cornerPoints
+    }
+
+    isSplitByRivers(){
+        return this.boundingDirections != null
+    }
+
+    isPointWithinArea(point, centre, corners) {
+        if (!this.isSplitByRivers()) return true
+
+        let polygon = this.getCornerPoints(corners)
+        polygon.push(centre)
+
+        return Util.isWithinPolygon(point, polygon)
+    }
 }
 
 class Tile {
@@ -80,10 +113,15 @@ class Tile {
         this.buildingAreas = new Map();
         this.links = new Map();
         this.roads = new Map();
-        this.buildingAreas.set("area1", new BuildingArea("area1"))
-        for (let i = 2; i <= riverExits.length; i++) {
-            let areaId = "area" + i;
-            this.buildingAreas.set(areaId, new BuildingArea(areaId))
+        if (riverExits.length < 2) {
+            this.buildingAreas.set(this.type.name + ".area1", new BuildingArea("area1"))
+        } else {
+            for (let i = 0; i < riverExits.length; i++) {
+                let areaId = this.type.name + ".area" + i;
+                let nextIndex = (i + 1) % riverExits.length;
+                let boundingDirections = Direction.directionsBetween(riverExits[i % riverExits.length], riverExits[nextIndex])
+                this.buildingAreas.set(areaId, new BuildingArea(areaId, boundingDirections))
+            }
         }
 
         // console.log("tile " + this.toString() + " has areas " + this.buildingAreas)
@@ -107,12 +145,6 @@ class Tile {
 
     build(building, areaId) {
         this.buildingAreas.get(areaId).build(building)
-    }
-
-    getBuildingArea(x, y) {
-        console.log("get building area at " + x + " " + y)
-        //todo - keep track of where the river separated areas are
-        return this.buildingAreas.get("area1")
     }
 
     addLink(direction, tile) {
@@ -149,14 +181,3 @@ class Tile {
         return `[${this.type.name}]`;
     }
 }
-
-
-// class Mage extends Hero {
-//     constructor(name, level, spell) {
-//         // Chain constructor with super
-//         super(name, level)
-//
-//         // Add a new property
-//         this.spell = spell
-//     }
-// }

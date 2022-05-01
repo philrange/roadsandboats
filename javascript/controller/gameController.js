@@ -43,16 +43,19 @@ class GameController {
 
     handleClick(x, y) {
         this.showInfoMessage("clicked: " + x + ", " + y)
-        let tile = this.world.getTileForCoordinates(x - PARAMS.WORLD_OFFSET_X, y - PARAMS.WORLD_OFFSET_Y)
+        let x1 = x - PARAMS.WORLD_OFFSET_X;
+        let y1 = y - PARAMS.WORLD_OFFSET_Y;
+        let tile = this.world.getTileForCoordinates(x1, y1)
         // console.log("clicked on tile: " + tile)
         if (tile != null) {
 
             if (!this.getGameState().havePlacedHomeMarker()) {
-                //move home marker to here
-                console.log("Moved home marker to " + tile)
-                this.performCommand(new SetHomeMarker(tile, x, y))
-                const startGame = document.getElementById('startGame')
-                startGame.disabled = false
+                if (tile.getType() !== TileType.SEA && tile.getType() !== TileType.EMPTY) {
+                    //move home marker to here
+                    this.performCommand(new SetHomeMarker(tile, x1, y1))
+                    const startGame = document.getElementById('startGame')
+                    startGame.disabled = false
+                }
             } else {
                 //do something
             }

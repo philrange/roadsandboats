@@ -44,7 +44,7 @@ class GameState {
     moveHomeMarker(tile, x, y) {
         this.world.clearHomeMarker()
         this.homeMarkerTile = tile
-        let area = tile.getBuildingArea(x, y)
+        let area = this.world.getBuildingAreaForCoordinates(tile, x, y)
         area.setHomeMarker()
     }
 

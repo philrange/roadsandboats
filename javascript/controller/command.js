@@ -63,7 +63,7 @@ class SetHomeMarker extends Command {
     }
 
     toString() {
-        return "Set Home Marker to " + this.tile + "[" + this.x + ", " + this.y + "]"
+        return "Set Home Marker to " + this.tile
     }
 
     perform(gameController) {

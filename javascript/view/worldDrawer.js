@@ -47,7 +47,7 @@ class WorldDrawer {
             //draw stuff on top
             this.drawRivers(hexOriginPoint, centre, hex, tile)
 
-            this.drawHomeMarker(tile, centre)
+            this.drawHomeMarker(tile, centre, hex)
 
             this.transporterDrawer.draw(tile, centre)
 
@@ -64,8 +64,8 @@ class WorldDrawer {
         let canvas = this.canvasContext
         tile.getRiverExits().forEach(direction => {
             // console.log("found river for " + hex + " " + tile)
-            let corners = this.getCornersForDirection(direction)
-            let middleOfEdge = this.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
+            let corners = direction.getCornersForDirection()
+            let middleOfEdge = Util.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
             // console.log("drawing river " + centre + " " + middle)
             canvas.lineWidth = 8
             canvas.strokeStyle = PARAMS.RIVER_COLOUR
@@ -109,50 +109,33 @@ class WorldDrawer {
         return perturbedNumber;
     }
 
-    drawHomeMarker(tile, centre) {
+    drawHomeMarker(tile, centre, hex) {
         tile.getBuildingAreas().forEach(area => {
             if (area.hasHomeMarker()) {
-                let x = centre.x - (PARAMS.HOME_MARKER_SIZE/2);
-                let y = centre.y - (PARAMS.HOME_MARKER_SIZE/2);
+                let middle
+                if (area.isSplitByRivers()) {
+                    let centreAndCorners = this.world.getCenterAndCorners(hex, this.offset)
+                    let cornerPoints = area.getCornerPoints(centreAndCorners.corners)
+                    let middleCorner;
+                    if (cornerPoints.length % 2 !== 0) {
+                        middleCorner = cornerPoints[(cornerPoints.length - 1) / 2];
+                    } else {
+                        middleCorner = Util.findMiddle(cornerPoints[(cornerPoints.length - 2) / 2], cornerPoints[cornerPoints.length / 2])
+                    }
+
+                    middle = Util.findMiddle(centre, middleCorner)
+                } else {
+                    middle = {x: centre.x - (PARAMS.HOME_MARKER_SIZE / 2), y: centre.y - (PARAMS.HOME_MARKER_SIZE / 2)}
+                }
+
+                let centreOffset = {x: (PARAMS.HOME_MARKER_SIZE / 2), y: (PARAMS.HOME_MARKER_SIZE / 2)}
+                middle = middle.subtract(centreOffset)
+
                 let size = PARAMS.HOME_MARKER_SIZE;
-                this.canvasContext.drawImage(ASSET_MANAGER.getAsset("./images/home_marker.png"), x, y, size, size)
+                this.canvasContext.drawImage(ASSET_MANAGER.getAsset("./images/home_marker.png"), middle.x, middle.y, size, size)
             }
         })
     }
-
-    getCornersForDirection(direction) {
-        let aIndex = 0
-        let bIndex = 1
-        switch (direction) {
-            case Direction.EAST:
-                aIndex = 0; bIndex = 1;
-                break
-            case Direction.SOUTHEAST:
-                aIndex = 1; bIndex = 2;
-                break
-            case Direction.SOUTHWEST:
-                aIndex = 2; bIndex = 3;
-                break
-            case Direction.WEST:
-                aIndex = 3; bIndex = 4;
-                break
-            case Direction.NORTHWEST:
-                aIndex = 4; bIndex = 5;
-                break
-            case Direction.NORTHEAST:
-                aIndex = 5; bIndex = 6;
-                break
-        }
-
-        return {a: aIndex, b: bIndex}
-    }
-
-    findMiddle(point1, point2) {
-        let middleX = (point1.x + point2.x) / 2
-        let middleY = (point1.y + point2.y) / 2
-        return Honeycomb.Point({x: middleX, y: middleY})
-    }
-
     getTileColour(type) {
         switch (type) {
             case TileType.DESERT:
