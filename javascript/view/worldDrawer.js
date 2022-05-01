@@ -70,8 +70,24 @@ class WorldDrawer {
             canvas.lineWidth = 5;
             canvas.strokeStyle = PARAMS.RIVER_COLOUR
             canvas.fillStyle = '#0000ff'
+            let distanceBetweenPoints = Math.sqrt(Math.pow(middleOfEdge.x - centre.x, 2) + Math.pow(middleOfEdge.y - centre.y, 2))
+            let unitVector = {x: (middleOfEdge.x - centre.x) / distanceBetweenPoints, y: (middleOfEdge.y - centre.y) / distanceBetweenPoints}
+            // console.log("dist " + distanceBetweenPoints)
+            // console.log("uv " + unitVector.x + " " + unitVector.y)
+            let numberOfWiggles = 20
+            let distanceAlongLine = distanceBetweenPoints/numberOfWiggles
             canvas.beginPath();
             canvas.moveTo(centre.x, centre.y);
+            // console.log("centre " + centre.x + " " + centre.y)
+            let location = centre
+            for (let i = 0; i < numberOfWiggles; i++) {
+                let xMovement = this.perturb(distanceAlongLine) + (distanceAlongLine * unitVector.x)
+                let yMovement = this.perturb(distanceAlongLine) + (distanceAlongLine * unitVector.y)
+                location = {x: location.x + xMovement, y: location.y + yMovement}
+                // console.log(" new loc " + location.x + " " + location.y)
+                canvas.lineTo(location.x, location.y);
+            }
+
             canvas.lineTo(middleOfEdge.x, middleOfEdge.y);
             canvas.stroke();
             if (PARAMS.DEBUG) {
@@ -81,6 +97,15 @@ class WorldDrawer {
                 canvas.fill()
             }
         })
+    }
+
+    perturb(number) {
+        // console.log("number " + number)
+        let randomNoise = (Math.floor(Math.random() * 40) - 20)/100
+        // console.log("noise " + randomNoise)
+        let perturbedNumber = number * randomNoise
+        // console.log("perturbedNumber " + perturbedNumber)
+        return perturbedNumber;
     }
 
     drawHomeMarker(tile, centre) {

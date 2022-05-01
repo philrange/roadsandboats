@@ -42,6 +42,7 @@ class GameController {
     }
 
     handleClick(x, y) {
+        this.showInfoMessage("clicked: " + x + ", " + y)
         let tile = this.world.getTileForCoordinates(x - PARAMS.WORLD_OFFSET_X, y - PARAMS.WORLD_OFFSET_Y)
         // console.log("clicked on tile: " + tile)
         if (tile != null) {
