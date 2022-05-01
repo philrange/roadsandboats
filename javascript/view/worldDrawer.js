@@ -86,7 +86,6 @@ class WorldDrawer {
     drawHomeMarker(tile, centre) {
         tile.getBuildingAreas().forEach(area => {
             if (area.hasHomeMarker()) {
-                console.log("drawing home marker")
                 let x = centre.x - (PARAMS.HOME_MARKER_SIZE/2);
                 let y = centre.y - (PARAMS.HOME_MARKER_SIZE/2);
                 let size = PARAMS.HOME_MARKER_SIZE;

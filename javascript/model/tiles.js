@@ -28,12 +28,10 @@ class BuildingArea {
     }
 
     setHomeMarker() {
-        console.log("setting home marker to area " + this.id)
         this.hasHome = true
     }
 
     removeHomeMarker() {
-        console.log("removing home")
         this.hasHome = false
     }
 
@@ -113,7 +111,6 @@ class Tile {
 
     getBuildingArea(x, y) {
         console.log("get building area at " + x + " " + y)
-        console.log(this.buildingAreas)
         //todo - keep track of where the river separated areas are
         return this.buildingAreas.get("area1")
     }

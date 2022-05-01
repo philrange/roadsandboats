@@ -24,7 +24,6 @@ class TransporterDrawer {
         canvas.drawImage(donkey, centre.x, centre.y, 30, 30)
 
         if (transporter.isHighlighted()) {
-            console.log("adding highlight")
             canvas.strokeStyle = 'lime'
             canvas.lineWidth = 3
             canvas.beginPath()
