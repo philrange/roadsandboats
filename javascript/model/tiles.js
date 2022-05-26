@@ -19,8 +19,8 @@ class BuildingArea {
         this.id = id;
         this.hasHome = false;
         this.building = null;
-        this.goods = {};
-        this.transporters = {};
+        this.goods = new Map();
+        this.transporters = new Map();
         this.boundingDirections = boundingDirections
     }
 
@@ -71,6 +71,10 @@ class BuildingArea {
 
     listGoods() {
         return this.goods;
+    }
+    
+    listTransporters() {
+        return this.transporters;
     }
 
     getCornerPoints(corners) {

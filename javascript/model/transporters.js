@@ -57,5 +57,9 @@ class Transporter {
     isHighlighted() {
         return this.highlighted
     }
+    
+    toString() {
+        return `[${this.type}]`;
+    }
 }
 

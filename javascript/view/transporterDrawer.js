@@ -9,6 +9,9 @@ class TransporterDrawer {
 
     draw(tile, centre) {
         //todo, draw transporters if they exist
+//        for tile.getBuildingAreas().values()
+//        for area.listTransporters().values()
+        
         if (tile.getType() === TileType.DESERT) {
             let donkey = new Transporter(TransporterType.DONKEY, 2, 1);
             if (this.count > 0) donkey.highlight(true)

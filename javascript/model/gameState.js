@@ -14,6 +14,7 @@ class GameState {
             this.currentTurn++
             //place neutral block in wonder
             this.wonder.addBlock(new NeutralBlock(), gameController)
+            gameController.production()
         }
 
         this.currentPhase = Phase.getNextPhase(this.currentPhase)
