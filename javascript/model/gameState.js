@@ -20,10 +20,9 @@ class GameState {
     }
 
     undoAdvancePhase(gameController) {
-        if (this.currentPhase === Phase.BUILDING) {
+        if (this.currentPhase === Phase.PRODUCTION) {
             this.currentTurn--
-            //todo - handle undos here
-            // this.wonder.removeBlock(new NeutralBlock(), gameController)
+             this.wonder.removeBlock(gameController)
         }
 
         this.currentPhase = Phase.getPreviousPhase(this.currentPhase)
@@ -84,13 +83,15 @@ class Phase {
     static getNextPhase(phase) {
         let keys = Object.values(Phase)
         let next = (keys.indexOf(phase) + 1) % 4
+        console.log("getting next phase " + next)
         return keys[next];
     }
 
     static getPreviousPhase(phase) {
         let keys = Object.values(Phase)
-        let next = (keys.indexOf(phase) - 1) % 4
-        return keys[next];
+        let previous = ((keys.indexOf(phase) - 1) + 4) % 4
+        console.log("getting previous phase " + previous)
+        return keys[previous];
     }
 
     toString() {

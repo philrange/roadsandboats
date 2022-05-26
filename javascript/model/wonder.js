@@ -54,6 +54,31 @@ class Wonder {
             }
         }
     }
+    
+    removeBlock(gameController) {
+        console.log("removing block")
+        // console.log("getting row " + this.currentRow)
+        let row = this.rows.get(this.currentRow)
+        for (let i = row.length - 1; i >= 0; i--) {
+            let space = row[i]
+            // console.log("checking block at " + i)
+            if (!(space instanceof EmptySpace)) {
+                if (this.currentRow === 9 && i === 0) {
+                    newSpace = new EmptySpaceIrrigation()
+                    row[i] = newSpace
+                    newSpace.add(gameController)
+                } else {
+                    row[i] = new EmptySpace()
+                }
+
+                if (i === 0 && this.currentRow > 0) {
+                    this.currentRow--
+                }
+
+                break;
+            }
+        }
+    }
 
     getRows() {
         return this.rows
@@ -97,5 +122,8 @@ class EmptySpace extends Block {
 class EmptySpaceIrrigation extends EmptySpace {
     remove(gameController) {
         gameController.performCommand(new Irrigation())
+    }    
+    add(gameController) {
+        gameController.undoCommand(new Irrigation())
     }
 }
