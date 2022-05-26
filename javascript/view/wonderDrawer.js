@@ -1,7 +1,7 @@
 class WonderDrawer {
     blockX = 40
     blockY = 20
-    x = 20
+    x = 25
     y = 30
     width= 316
     height = 395

@@ -125,7 +125,7 @@ class WorldDrawer {
 
                     middle = Util.findMiddle(centre, middleCorner)
                 } else {
-                    middle = {x: centre.x - (PARAMS.HOME_MARKER_SIZE / 2), y: centre.y - (PARAMS.HOME_MARKER_SIZE / 2)}
+                    middle = Honeycomb.Point({x: centre.x - (PARAMS.HOME_MARKER_SIZE / 2), y: centre.y - (PARAMS.HOME_MARKER_SIZE / 2)})
                 }
 
                 let centreOffset = {x: (PARAMS.HOME_MARKER_SIZE / 2), y: (PARAMS.HOME_MARKER_SIZE / 2)}

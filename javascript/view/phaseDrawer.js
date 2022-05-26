@@ -1,5 +1,5 @@
 class PhaseDrawer {
-    x = 20
+    x = 25
     y = 430
     width = 316
     height = 60
