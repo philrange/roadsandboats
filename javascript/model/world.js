@@ -26,7 +26,7 @@ class World {
         // console.log("found hex " + hex)
         return hex
     }
-
+    
     getTileForCoordinates(x, y) {
         let hex = this.getHexForCoordinates(x, y)
         return this.getTileForHex(hex)

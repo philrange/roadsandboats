@@ -4,6 +4,7 @@ let ASSET_MANAGER = new AssetManager();
 // ASSET_MANAGER.queueDownload("./images/mario.png");
 ASSET_MANAGER.queueDownload("./images/home_marker.png");
 ASSET_MANAGER.queueDownload("./images/donkey.png");
+ASSET_MANAGER.queueDownload("./images/woodcutter.png");
 
 
 let downloaded = 0;
@@ -67,14 +68,12 @@ function addClickListeners(gameController) {
 
     //advance phase
     const advancePhase = document.getElementById('advancePhase')
-    advancePhase.disabled = true
     advancePhase.addEventListener('click', (event) => {
         gameController.performCommand(new AdvancePhase())
     })
 
     //start game
     const startGame = document.getElementById('startGame')
-    startGame.disabled = true
     startGame.addEventListener('click', (event) => {
         gameController.performCommand(new StartGame())
         advancePhase.disabled = false

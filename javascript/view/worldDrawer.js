@@ -3,6 +3,7 @@ class WorldDrawer {
         this.canvasContext = canvasContext
         this.world = world
         this.offset = offset;
+        this.buildingDrawer = new BuildingDrawer(canvasContext)
         this.transporterDrawer = new TransporterDrawer(canvasContext)
     }
 
@@ -49,6 +50,8 @@ class WorldDrawer {
 
             this.drawHomeMarker(tile, centre, hex)
 
+            this.buildingDrawer.draw(tile, centre)
+            
             this.transporterDrawer.draw(tile, centre)
 
             if (PARAMS.DEBUG) {

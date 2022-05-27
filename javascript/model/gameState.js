@@ -10,23 +10,23 @@ class GameState {
     currentTurn = 1
 
     advancePhase(gameController) {
-        if (this.currentPhase === Phase.WONDER) {
+        this.currentPhase = Phase.getNextPhase(this.currentPhase)
+        
+        if (this.currentPhase === Phase.PRODUCTION) {
             this.currentTurn++
             //place neutral block in wonder
             this.wonder.addBlock(new NeutralBlock(), gameController)
             gameController.production()
         }
-
-        this.currentPhase = Phase.getNextPhase(this.currentPhase)
     }
 
     undoAdvancePhase(gameController) {
-        if (this.currentPhase === Phase.PRODUCTION) {
+        this.currentPhase = Phase.getPreviousPhase(this.currentPhase)
+        
+        if (this.currentPhase === Phase.WONDER) {
             this.currentTurn--
              this.wonder.removeBlock(gameController)
         }
-
-        this.currentPhase = Phase.getPreviousPhase(this.currentPhase)
     }
 
     getCurrentPhase() {
@@ -52,13 +52,19 @@ class GameState {
         return this.placedHomeMarker
     }
 
-    confirmPlaceHomeMarker() {
+    confirmPlaceHomeMarker(gameController) {
         this.placedHomeMarker = true
-        this.currentPhase = Phase.PRODUCTION
+        this.currentPhase = Phase.WONDER
+        
+        //todo - remove
+        this.temporaryMethodToAddBuildingsAndStuff()
+        
+        this.advancePhase(gameController)
     }
 
-    undoPlaceHomeMarker() {
+    undoPlaceHomeMarker(gameController) {
         this.placedHomeMarker = false
+        this.undoAdvancePhase(gameController)
         this.currentPhase = null
     }
 
@@ -68,14 +74,31 @@ class GameState {
         //todo add undo for this
     }
 
+    temporaryMethodToAddBuildingsAndStuff() {
+        let hex = this.world.getGrid()[6]
+        console.log(hex)
+        let tile = this.world.getTileForHex(hex)
+//        let tile = this.world.getTileForCoordinates(837 - PARAMS.WORLD_OFFSET_X, 316 - PARAMS.WORLD_OFFSET_Y)
+        console.log("adding somethign to a tile " + tile)
+
+        for (const area of tile.getBuildingAreas().values()) {
+            
+//            console.log(area)
+        }
+//        console.log("getting " + tile.getType().name + ".area1")
+        let area = tile.getBuildingAreas().get(tile.getType().name + ".area1")
+//        console.log("area " + area)
+        area.build(BuildingType.WOODCUTTER)
+    }
+
 }
 
 class Phase {
 
-    static PRODUCTION = new TileType('Production');
-    static MOVEMENT = new TileType('Movement');
-    static BUILDING = new TileType('Building');
-    static WONDER = new TileType('Wonder');
+    static PRODUCTION = new Phase('Production');
+    static MOVEMENT = new Phase('Movement');
+    static BUILDING = new Phase('Building');
+    static WONDER = new Phase('Wonder');
 
     constructor(name) {
         this.name = name;

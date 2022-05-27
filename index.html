@@ -7,8 +7,8 @@
           href="https://fonts.googleapis.com/css?family=Press+Start+2P">
     <link rel="stylesheet" href="style.css">
 
-    <script type="text/javascript" src="./javascript/parameters.js"></script>
     <script type="text/javascript" src="./javascript/util.js"></script>
+    <script type="text/javascript" src="./javascript/parameters.js"></script>
     <script type="text/javascript" src="./javascript/assetManager.js"></script>
     <script type="text/javascript" src="./javascript/main.js"></script>
 
@@ -18,6 +18,7 @@
     <script type="text/javascript" src="./javascript/model/worldBuilder.js"></script>
     <script type="text/javascript" src="./javascript/model/gameState.js"></script>
     <script type="text/javascript" src="./javascript/model/wonder.js"></script>
+    <script type="text/javascript" src="./javascript/model/buildings.js"></script>
 
     <script type="text/javascript" src="./javascript/view/view.js"></script>
     <script type="text/javascript" src="./javascript/view/worldDrawer.js"></script>
@@ -25,6 +26,7 @@
     <script type="text/javascript" src="./javascript/view/phaseDrawer.js"></script>
     <script type="text/javascript" src="./javascript/view/commandHistoryDrawer.js"></script>
     <script type="text/javascript" src="./javascript/view/transporterDrawer.js"></script>
+    <script type="text/javascript" src="./javascript/view/buildingDrawer.js"></script>
 
     <script type="text/javascript" src="./javascript/thirdparty/honeycomb.min.js"></script>
 
@@ -47,8 +49,8 @@
                 <div><span id="gameStage">Place Home Marker</span></div>
                 <div><span id="turn"></span></div>
                 <div><span id="phase"></span></div>
-                <div><button id="startGame">Start Game</button></div>
-                <div><button id="advancePhase">Advance Phase</button></div>
+                <div><button id="startGame" disabled>Start Game</button></div>
+                <div><button id="advancePhase" disabled>Advance Phase</button></div>
             </div>
 
             <div id="inventory"></div>

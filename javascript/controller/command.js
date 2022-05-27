@@ -46,11 +46,11 @@ class StartGame extends Command {
     }
 
     perform(gameController) {
-        gameController.getGameState().confirmPlaceHomeMarker()
+        gameController.getGameState().confirmPlaceHomeMarker(gameController)
     }
 
     undo(gameController) {
-        gameController.getGameState().undoPlaceHomeMarker()
+        gameController.getGameState().undoPlaceHomeMarker(gameController)
     }
 }
 

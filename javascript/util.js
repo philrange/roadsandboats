@@ -87,13 +87,38 @@ class Good {
 }
 
 class TransporterType {
-    static DONKEY = new TransporterType('Donkey');
-    static WAGON = new TransporterType('Wagon');
-    static RAFT = new TransporterType('Raft');
+    static DONKEY = new TransporterType('Donkey', "./images/donkey.png");
+    static WAGON = new TransporterType('Wagon', "todo");
+    static RAFT = new TransporterType('Raft', "todo");
 
-    constructor(name) {
+    constructor(name, image) {
         this.name = name;
+        this.image = image
     }
+
+    getImage() {
+        return ASSET_MANAGER.getAsset(this.image)
+    }
+
+    toString() {
+        return this.name;
+    }
+}
+
+class BuildingType {
+    static WOODCUTTER = new BuildingType('Woodcutter', "./images/woodcutter.png");
+
+//    static EMPTY = new BuildingType('-');
+
+    constructor(name, image) {
+        this.name = name;
+        this.image = image;
+    }
+
+    getImage() {
+        return ASSET_MANAGER.getAsset(this.image)
+    }
+
     toString() {
         return this.name;
     }

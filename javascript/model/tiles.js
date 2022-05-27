@@ -45,11 +45,15 @@ class BuildingArea {
     }
 
     hasBuilding() {
-        return this.building != null;
+        return this.building !== null;
     }
 
     build(building) {
         this.building = building;
+    }
+    
+    getBuilding() {
+        return this.building
     }
 
     dropGood(good) {

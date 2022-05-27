@@ -63,6 +63,13 @@ class GameController {
                 }
             } else {
                 //do something
+                let phase = this.gameState.getCurrentPhase()
+                console.log("handling a click in the " + phase + " phase")
+                switch (phase) {
+                    case Phase.BUILDING:
+                        break;
+                } 
+                
             }
 
         }
