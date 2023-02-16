@@ -3,6 +3,8 @@ class WorldDrawer {
         this.canvasContext = canvasContext
         this.world = world
         this.offset = offset;
+        this.buildingDrawer = new BuildingDrawer(canvasContext)
+        this.transporterDrawer = new TransporterDrawer(canvasContext)
     }
 
     draw() {
@@ -46,6 +48,12 @@ class WorldDrawer {
             //draw stuff on top
             this.drawRivers(hexOriginPoint, centre, hex, tile)
 
+            this.drawHomeMarker(tile, centre, hex)
+
+            this.buildingDrawer.draw(tile, centre)
+            
+            this.transporterDrawer.draw(tile, centre)
+
             if (PARAMS.DEBUG) {
                 canvas.font = "10px Arial";
                 canvas.fillStyle = 'black'
@@ -53,65 +61,84 @@ class WorldDrawer {
             }
         }
 
-
     }
 
     drawRivers(hexOriginPoint, centre, hex, tile) {
         let canvas = this.canvasContext
         tile.getRiverExits().forEach(direction => {
             // console.log("found river for " + hex + " " + tile)
-            let corners = this.getCornersForDirection(direction)
-            let middle = this.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
+            let corners = direction.getCornersForDirection()
+            let middleOfEdge = Util.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
             // console.log("drawing river " + centre + " " + middle)
-            canvas.lineWidth = 5;
+            canvas.lineWidth = 8
             canvas.strokeStyle = PARAMS.RIVER_COLOUR
             canvas.fillStyle = '#0000ff'
+            let distanceBetweenPoints = Math.sqrt(Math.pow(middleOfEdge.x - centre.x, 2) + Math.pow(middleOfEdge.y - centre.y, 2))
+            let unitVector = {x: (middleOfEdge.x - centre.x) / distanceBetweenPoints, y: (middleOfEdge.y - centre.y) / distanceBetweenPoints}
+            // console.log("dist " + distanceBetweenPoints)
+            // console.log("uv " + unitVector.x + " " + unitVector.y)
+            let numberOfWiggles = 20
+            let distanceAlongLine = distanceBetweenPoints/numberOfWiggles
             canvas.beginPath();
             canvas.moveTo(centre.x, centre.y);
-            canvas.lineTo(middle.x, middle.y);
+            // console.log("centre " + centre.x + " " + centre.y)
+            let location = centre
+            for (let i = 0; i < numberOfWiggles; i++) {
+                let xMovement = this.perturb(distanceAlongLine) + (distanceAlongLine * unitVector.x)
+                let yMovement = this.perturb(distanceAlongLine) + (distanceAlongLine * unitVector.y)
+                location = {x: location.x + xMovement, y: location.y + yMovement}
+                // console.log(" new loc " + location.x + " " + location.y)
+                canvas.lineTo(location.x, location.y);
+            }
+
+            canvas.lineTo(middleOfEdge.x, middleOfEdge.y);
             canvas.stroke();
-            if (PARAMS.DEBUG) {
+            // if (PARAMS.DEBUG) {
+            //add some circles to cover up joins
                 canvas.beginPath()
                 canvas.arc(centre.x, centre.y, 2, 0, Math.PI * 2)
-                canvas.arc(middle.x, middle.y, 5, 0, Math.PI * 2)
+                canvas.arc(middleOfEdge.x, middleOfEdge.y, 5, 0, Math.PI * 2)
                 canvas.fill()
-            }
+            // }
         })
     }
 
-    getCornersForDirection(direction) {
-        let aIndex = 0
-        let bIndex = 1
-        switch (direction) {
-            case Direction.EAST:
-                aIndex = 0; bIndex = 1;
-                break
-            case Direction.SOUTHEAST:
-                aIndex = 1; bIndex = 2;
-                break
-            case Direction.SOUTHWEST:
-                aIndex = 2; bIndex = 3;
-                break
-            case Direction.WEST:
-                aIndex = 3; bIndex = 4;
-                break
-            case Direction.NORTHWEST:
-                aIndex = 4; bIndex = 5;
-                break
-            case Direction.NORTHEAST:
-                aIndex = 5; bIndex = 6;
-                break
-        }
-
-        return {a: aIndex, b: bIndex}
+    perturb(number) {
+        // console.log("number " + number)
+        let randomNoise = (Math.floor(Math.random() * 50) - 20)/100
+        // console.log("noise " + randomNoise)
+        let perturbedNumber = number * randomNoise
+        // console.log("perturbedNumber " + perturbedNumber)
+        return perturbedNumber;
     }
 
-    findMiddle(point1, point2) {
-        let middleX = (point1.x + point2.x) / 2
-        let middleY = (point1.y + point2.y) / 2
-        return Honeycomb.Point({x: middleX, y: middleY})
-    }
+    drawHomeMarker(tile, centre, hex) {
+        tile.getBuildingAreas().forEach(area => {
+            if (area.hasHomeMarker()) {
+                let middle
+                if (area.isSplitByRivers()) {
+                    let centreAndCorners = this.world.getCenterAndCorners(hex, this.offset)
+                    let cornerPoints = area.getCornerPoints(centreAndCorners.corners)
+                    let middleCorner;
+                    if (cornerPoints.length % 2 !== 0) {
+                        middleCorner = cornerPoints[(cornerPoints.length - 1) / 2];
+                    } else {
+                        middleCorner = Util.findMiddle(cornerPoints[(cornerPoints.length - 2) / 2], cornerPoints[cornerPoints.length / 2])
+                    }
 
+                    middle = Util.findMiddle(centre, middleCorner)
+                } else {
+                    middle = Honeycomb.Point({x: centre.x - (PARAMS.HOME_MARKER_SIZE / 2), y: centre.y - (PARAMS.HOME_MARKER_SIZE / 2)})
+                }
+
+                let centreOffset = {x: (PARAMS.HOME_MARKER_SIZE / 2), y: (PARAMS.HOME_MARKER_SIZE / 2)}
+                middle = middle.subtract(centreOffset)
+
+                let size = PARAMS.HOME_MARKER_SIZE;
+                this.canvasContext.drawImage(ASSET_MANAGER.getAsset("./images/home_marker.png"), middle.x, middle.y, size, size)
+            }
+        })
+    }
     getTileColour(type) {
         switch (type) {
             case TileType.DESERT:

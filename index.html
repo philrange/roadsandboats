@@ -7,8 +7,8 @@
           href="https://fonts.googleapis.com/css?family=Press+Start+2P">
     <link rel="stylesheet" href="style.css">
 
-    <script type="text/javascript" src="./javascript/parameters.js"></script>
     <script type="text/javascript" src="./javascript/util.js"></script>
+    <script type="text/javascript" src="./javascript/parameters.js"></script>
     <script type="text/javascript" src="./javascript/assetManager.js"></script>
     <script type="text/javascript" src="./javascript/main.js"></script>
 
@@ -18,17 +18,22 @@
     <script type="text/javascript" src="./javascript/model/worldBuilder.js"></script>
     <script type="text/javascript" src="./javascript/model/gameState.js"></script>
     <script type="text/javascript" src="./javascript/model/wonder.js"></script>
+    <script type="text/javascript" src="./javascript/model/buildings.js"></script>
 
     <script type="text/javascript" src="./javascript/view/view.js"></script>
     <script type="text/javascript" src="./javascript/view/worldDrawer.js"></script>
     <script type="text/javascript" src="./javascript/view/wonderDrawer.js"></script>
+    <script type="text/javascript" src="./javascript/view/phaseDrawer.js"></script>
     <script type="text/javascript" src="./javascript/view/commandHistoryDrawer.js"></script>
+    <script type="text/javascript" src="./javascript/view/transporterDrawer.js"></script>
+    <script type="text/javascript" src="./javascript/view/buildingDrawer.js"></script>
 
     <script type="text/javascript" src="./javascript/thirdparty/honeycomb.min.js"></script>
 
     <script type="text/javascript" src="./javascript/controller/gameController.js"></script>
     <script type="text/javascript" src="./javascript/controller/gameContext.js"></script>
     <script type="text/javascript" src="./javascript/controller/command.js"></script>
+    <script type="text/javascript" src="./javascript/controller/productionController.js"></script>
 
 </head>
 <body onload="updateLoadingBar()">
@@ -36,23 +41,40 @@
     <div><span id="loadingBar"></span></div>
 
     <div class="horizontal">
-        <div id="historyWrapper">
-            <div><button id="undo">Undo</button></div>
-            <div>Last actions performed...</div>
-            <div><span id="commandHistory"></span></div>
+
+        <div><canvas id="gameWorld" width="1200" height="600"  tabindex ="0" autofocus></canvas></div>
+
+        <div>
+            <div id="buttons">
+                <div><span id="gameStage">Place Home Marker</span></div>
+                <div><span id="turn"></span></div>
+                <div><span id="phase"></span></div>
+                <div><button id="startGame" disabled>Start Game</button></div>
+                <div><button id="advancePhase" disabled>Advance Phase</button></div>
+            </div>
+
+            <div id="inventory"></div>
+
+            <div id="historyWrapper">
+                <br>
+                <div><button id="undo">Undo</button></div>
+                <div>Last actions performed...</div>
+                <div><span id="commandHistory"></span></div>
+            </div>
+
+            <div>
+                <br>
+                <button id="addBlock">Add block</button>
+            </div>
+
         </div>
-        <div><canvas id="gameWorld" width="1000" height="600"  tabindex ="0" autofocus></canvas></div>
     </div>
 
-    <div><span id="infoMessage"></span></div>
+    <div><span id="infoMessage">Click a hex to place your home marker</span></div>
 
     <div>
         <br>
         <input type="checkbox" id="debug"> Debug
-    </div>
-    <div>
-        <br>
-        <input type="checkbox" id="irrigation"> Irrigation
     </div>
 </body>
 </html>

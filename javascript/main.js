@@ -2,6 +2,9 @@ let ASSET_MANAGER = new AssetManager();
 
 // load images
 // ASSET_MANAGER.queueDownload("./images/mario.png");
+ASSET_MANAGER.queueDownload("./images/home_marker.png");
+ASSET_MANAGER.queueDownload("./images/donkey.png");
+ASSET_MANAGER.queueDownload("./images/woodcutter.png");
 
 
 let downloaded = 0;
@@ -22,19 +25,26 @@ ASSET_MANAGER.downloadAll(updateLoadingBar, function () {
     PARAMS.CANVAS_HEIGHT = canvas.height;
 
     canvasContext.font = "30px Arial";
-    canvasContext.fillText("Loading...", 400, 200);
+    canvasContext.fillText("Loading...", 500, 200);
 
     let world = new WorldBuilder().buildWorld()
-    let wonder = new Wonder()
-    let gameController = new GameController(canvasContext, world, wonder);
+    let gameController = new GameController(canvasContext, world);
 
     addClickListeners(gameController)
 
     console.log("Everything loaded, starting controller")
+    document.getElementById('loadingBar').hidden = true
+    // document.getElementById('loadingBar').innerText = ""
     gameController.start();
 });
 
 function addClickListeners(gameController) {
+
+    //canvas
+    const gameWorld = document.getElementById('gameWorld')
+    gameWorld.addEventListener('click', ({ offsetX, offsetY }) => {
+        gameController.handleClick(offsetX, offsetY)
+    })
 
     //debug mode
     const checkbox = document.getElementById('debug')
@@ -44,19 +54,29 @@ function addClickListeners(gameController) {
         gameController.redraw()
     })
 
-    //irrigation
-    const irrigationCheckbox = document.getElementById('irrigation')
-    irrigationCheckbox.checked = false
-    irrigationCheckbox.addEventListener('change', (event) => {
-        if (event.currentTarget.checked) {
-            gameController.performCommand(new Irrigation())
-        }
+    //add block
+    const addBlock = document.getElementById('addBlock')
+    addBlock.addEventListener('click', (event) => {
+        gameController.performCommand(new AddBlock())
     })
-
 
     //undo
     const undo = document.getElementById('undo')
     undo.addEventListener('click', (event) => {
         gameController.undoLastCommand()
+    })
+
+    //advance phase
+    const advancePhase = document.getElementById('advancePhase')
+    advancePhase.addEventListener('click', (event) => {
+        gameController.performCommand(new AdvancePhase())
+    })
+
+    //start game
+    const startGame = document.getElementById('startGame')
+    startGame.addEventListener('click', (event) => {
+        gameController.performCommand(new StartGame())
+        advancePhase.disabled = false
+        startGame.hidden = true
     })
 }

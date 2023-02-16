@@ -5,6 +5,7 @@ class Transporter {
         this.movement = movement;
         this.goods = new Map();
         this.movedThisTurn = 0;
+        this.highlighted = false
     }
 
     isFull() {
@@ -17,7 +18,7 @@ class Transporter {
 
         let currentAmount = this.goods.has(good) ? this.goods.get(good) : 0;
         currentAmount++;
-        this.goods.put(good, currentAmount);
+        this.goods.set(good, currentAmount);
     }
 
     unloadGood(good) {
@@ -29,7 +30,7 @@ class Transporter {
         }
 
         currentAmount--;
-        this.goods.put(good, currentAmount);
+        this.goods.set(good, currentAmount);
     }
 
     listGoods() {
@@ -49,4 +50,16 @@ class Transporter {
         this.movedThisTurn = 0;
     }
 
+    highlight(isHighlighted) {
+        this.highlighted = isHighlighted
+    }
+
+    isHighlighted() {
+        return this.highlighted
+    }
+    
+    toString() {
+        return `[${this.type}]`;
+    }
 }
+

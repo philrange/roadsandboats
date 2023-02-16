@@ -15,11 +15,29 @@ class TileType {
 }
 
 class BuildingArea {
-    constructor(id) {
+    constructor(id, boundingDirections) {
         this.id = id;
+        this.hasHome = false;
         this.building = null;
-        this.goods = {};
-        this.transporters = {};
+        this.goods = new Map();
+        this.transporters = new Map();
+        this.boundingDirections = boundingDirections
+    }
+
+    toString() {
+        return this.id
+    }
+
+    setHomeMarker() {
+        this.hasHome = true
+    }
+
+    removeHomeMarker() {
+        this.hasHome = false
+    }
+
+    hasHomeMarker() {
+        return this.hasHome
     }
 
     getId() {
@@ -27,11 +45,15 @@ class BuildingArea {
     }
 
     hasBuilding() {
-        return this.building != null;
+        return this.building !== null;
     }
 
     build(building) {
         this.building = building;
+    }
+    
+    getBuilding() {
+        return this.building
     }
 
     dropGood(good) {
@@ -54,19 +76,63 @@ class BuildingArea {
     listGoods() {
         return this.goods;
     }
+    
+    listTransporters() {
+        return this.transporters;
+    }
+
+    getCornerPoints(corners) {
+        let cornerPoints = []
+
+        let index = 0
+        for (const direction of this.boundingDirections) {
+            let cornerIndexes = direction.getCornersForDirection()
+            let corner1 = corners[cornerIndexes.a];
+            let corner2 = corners[cornerIndexes.b];
+            let lastIndex = this.boundingDirections.length - 1;
+            if (index === 0 || index === lastIndex) {
+                cornerPoints.push(Util.findMiddle(corner1, corner2))
+            }
+            if (index !== lastIndex) cornerPoints.push(corner2)
+            index++
+        }
+
+        return cornerPoints
+    }
+
+    isSplitByRivers(){
+        return this.boundingDirections != null
+    }
+
+    isPointWithinArea(point, centre, corners) {
+        if (!this.isSplitByRivers()) return true
+
+        let polygon = this.getCornerPoints(corners)
+        polygon.push(centre)
+
+        return Util.isWithinPolygon(point, polygon)
+    }
 }
 
 class Tile {
     constructor(type, riverExits = []) {
         this.type = type
         this.riverExits = riverExits
-        this.buildingAreas = [];
+        this.buildingAreas = new Map();
         this.links = new Map();
         this.roads = new Map();
-        this.buildingAreas.push("area1")
-        for (let i = 0; i < riverExits.size; i++) {
-            this.buildingAreas.push("area" + (i + 1))
+        if (riverExits.length < 2) {
+            this.buildingAreas.set(this.type.name + ".area1", new BuildingArea("area1"))
+        } else {
+            for (let i = 0; i < riverExits.length; i++) {
+                let areaId = this.type.name + ".area" + i;
+                let nextIndex = (i + 1) % riverExits.length;
+                let boundingDirections = Direction.directionsBetween(riverExits[i % riverExits.length], riverExits[nextIndex])
+                this.buildingAreas.set(areaId, new BuildingArea(areaId, boundingDirections))
+            }
         }
+
+        // console.log("tile " + this.toString() + " has areas " + this.buildingAreas)
     }
 
     getType() {
@@ -77,9 +143,13 @@ class Tile {
         return this.riverExits
     }
 
-    canBuild() {
-        return this.type !== TileType.DESERT && this.buildingAreas.every(area => area.hasBuilding() === false);
+    getBuildingAreas() {
+        return this.buildingAreas
     }
+
+    // canBuild() {
+    //     return this.type !== TileType.DESERT && this.buildingAreas.values().every(area => area.hasBuilding() === false);
+    // }
 
     build(building, areaId) {
         this.buildingAreas.get(areaId).build(building)
@@ -119,14 +189,3 @@ class Tile {
         return `[${this.type.name}]`;
     }
 }
-
-
-// class Mage extends Hero {
-//     constructor(name, level, spell) {
-//         // Chain constructor with super
-//         super(name, level)
-//
-//         // Add a new property
-//         this.spell = spell
-//     }
-// }
