@@ -9,6 +9,8 @@ class GoodDrawer {
 
     draw(area, centre) {
             
+        centre = Util.addOffset(centre, 20)
+            
         for (let [good, amount] of area.listGoods()) {
             console.log("drawing " + amount + " " + good + " at " + JSON.stringify(centre))
             centre = Util.addOffset(centre, 10)
@@ -25,10 +27,10 @@ class GoodDrawer {
             console.log("amount: " + amount)
             canvas.font = "bold 20px Arial";
             canvas.fillStyle = 'orange'
-            canvas.fillText(amount, centre.x, centre.y)
+            canvas.fillText(amount, centre.x, centre.y + 10)
             canvas.lineWidth = 1
             canvas.strokeStyle = 'black'
-            canvas.strokeText(amount, centre.x, centre.y)
+            canvas.strokeText(amount, centre.x, centre.y + 10)
         }
     }
 

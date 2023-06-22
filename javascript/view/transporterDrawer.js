@@ -7,16 +7,16 @@ class TransporterDrawer {
 
 
     draw(area, centre) {
-        //todo, draw transporters if they exist
+        
+        centre = Util.addOffset(centre, -20)
+        
         for (let transporter of area.listTransporters().values()) {
             
-
+            centre = Util.addOffset(centre, -20)
             this.drawTransporter(transporter, centre)
             this.count++
         }
         
-//        let donkey = new Transporter(TransporterType.DONKEY, 2, 1);
-//        if (this.count == 0) donkey.highlight(true)
     }
 
     drawTransporter(transporter, centre) {
@@ -32,6 +32,8 @@ class TransporterDrawer {
             canvas.rect(centre.x, centre.y, 30, 30);
             canvas.stroke();
         }
+        
+        //todo - draw the goods on this transporter
     }
 
 

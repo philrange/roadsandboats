@@ -10,7 +10,6 @@ class GameController {
 
 
     start() {
-        this.view.showInfoMessage("hello ")
         this.redraw()
     }
 
@@ -70,9 +69,13 @@ class GameController {
                         break;
                 } 
                 
+                let area = this.world.getBuildingAreaForCoordinates(tile, x1, y1)
+                this.view.displayAreaContents(area)
+                
             }
 
         }
     }
+    
 
 }

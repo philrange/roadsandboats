@@ -39,7 +39,20 @@ class View {
         infoMessage.innerText = text;
     }
 
+    displayAreaContents(area) {
+        let element = document.getElementById('areaContents');
+        
+        let text = "<ul>"
+        for (let good of area.listGoods()) {
+            console.log(" area contents " + good)
+        
+            text += "<li>" + good + "</li>"
+            
+        }
+        text += "</ul>"
+//        console.log(text)
+        element.innerHTML = text;
+    }
 
-    //todo
-    //onclick - get coordinates, and get tile/object underneath, send to controller
+
 }

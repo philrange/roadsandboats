@@ -34,7 +34,6 @@ class World {
 
     getBuildingAreaForCoordinates(tile, x, y) {
 
-        // console.log("getBuildingAreaForCoordinates " + x + " " + y)
         let hex = this.getHexForCoordinates(x, y)
         // let offset = {x: PARAMS.WORLD_OFFSET_X, y: PARAMS.WORLD_OFFSET_Y}
         // const hexOriginPoint = hex.toPoint().add(offset)
