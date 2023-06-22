@@ -21,9 +21,7 @@ class GameState {
                 this.wonder.addBlock(new NeutralBlock(), gameController)
             }
                  
-            console.log("hello 1")
             gameController.production()
-            console.log("hello 2")
        }
     }
 
