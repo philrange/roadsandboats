@@ -20,7 +20,7 @@ class BuildingArea {
         this.hasHome = false;
         this.building = null;
         this.goods = new Map();
-        this.transporters = new Map();
+        this.transporters = [];
         this.boundingDirections = boundingDirections
     }
 
@@ -30,6 +30,7 @@ class BuildingArea {
 
     setHomeMarker() {
         this.hasHome = true
+        console.log("setting home marker to " + this)
     }
 
     removeHomeMarker() {
@@ -55,11 +56,22 @@ class BuildingArea {
     getBuilding() {
         return this.building
     }
+    
+    removeTransporter(transporter) {
+        const index = this.transporters.indexOf(transporter);
+        if (index > -1) {
+          this.transporters.splice(index, 1);
+        }
+    }
+    
+    placeTransporter(transporter) {
+        this.transporters.push(transporter)
+    }
 
     dropGood(good) {
         let currentAmount = this.goods.has(good) ? this.goods.get(good) : 0;
         currentAmount++;
-        this.goods.put(good, currentAmount);
+        this.goods.set(good, currentAmount);
     }
 
     takeGood(good) {
@@ -70,7 +82,7 @@ class BuildingArea {
             throw 'No ' + good + ' left to take'
         }
         currentAmount--;
-        this.goods.put(good, currentAmount);
+        this.goods.set(good, currentAmount);
     }
 
     listGoods() {

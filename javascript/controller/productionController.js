@@ -7,6 +7,8 @@ class ProductionController {
     produce() {
                         
         let grid = this.world.getGrid()
+        
+        
         for (const hex of grid) {
             let tile = this.world.getTileForHex(hex)
         
@@ -19,7 +21,11 @@ class ProductionController {
                 if (area.hasBuilding()) {
                     
                     let building = area.getBuilding()
-                    console.log("producing for building " + building + " on tile " + tile)
+                    if (building.isPrimaryProducer) {
+                        console.log("producing " + building.produces + " for building " + building + " on tile " + tile)
+                        area.dropGood(building.produces)
+                    }
+                    
                 }
                         
                 for (const t of area.listTransporters().values()) {

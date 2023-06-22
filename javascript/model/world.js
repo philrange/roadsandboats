@@ -34,7 +34,6 @@ class World {
 
     getBuildingAreaForCoordinates(tile, x, y) {
 
-        // console.log("getBuildingAreaForCoordinates " + x + " " + y)
         let hex = this.getHexForCoordinates(x, y)
         // let offset = {x: PARAMS.WORLD_OFFSET_X, y: PARAMS.WORLD_OFFSET_Y}
         // const hexOriginPoint = hex.toPoint().add(offset)
@@ -44,7 +43,7 @@ class World {
         areas.values(x => console.log(x))
         for (const area of areas.values()) {
             if (area.isPointWithinArea(Honeycomb.Point({x: x, y: y}), centreAndCorners.centre, centreAndCorners.corners)) {
-                console.log("found matching area " + area)
+//                console.log("found matching area " + area)
                 return area
             }
         }
