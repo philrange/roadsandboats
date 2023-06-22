@@ -13,14 +13,18 @@ class GameState {
     advancePhase(gameController) {
         this.currentPhase = Phase.getNextPhase(this.currentPhase)
         
+        console.log("current phase: " + this.currentPhase)
         if (this.currentPhase === Phase.PRODUCTION) {
             this.currentTurn++
-            if (currentTurn > 1) {
+            if (this.currentTurn > 1) {
                 //place neutral block in wonder
                 this.wonder.addBlock(new NeutralBlock(), gameController)
             }
+                 
+            console.log("hello 1")
             gameController.production()
-        }
+            console.log("hello 2")
+       }
     }
 
     undoAdvancePhase(gameController) {
@@ -72,7 +76,7 @@ class GameState {
         this.temporaryMethodToAddBuildingsAndStuff()
         
         this.spawnStartingResources()
-        
+
         this.advancePhase(gameController)
     }
 
@@ -98,10 +102,8 @@ class GameState {
 //        console.log("getting " + tile.getType().name + ".area1")
         let area = tile.getBuildingAreas().get(tile.getType().name + ".area1")
 //        console.log("area " + area)
-        area.build(BuildingType.WOODCUTTER)
-        console.log("placing donkey")
-        area.placeTransporter(TransporterType.DONKEY)
-        console.log("placed donkey")
+        area.build(Buildings.WOODCUTTER)
+        area.placeTransporter(Transporters.DONKEY)
     }
 
     spawnStartingResources() {
@@ -110,7 +112,7 @@ class GameState {
         
         console.log("adding starting resources to home tile " + area)
         
-        area.placeTransporter(TransporterType.DONKEY)
+        area.placeTransporter(Transporters.DONKEY)
         area.dropGood(Good.GEESE)
         area.dropGood(Good.GEESE)
         area.dropGood(Good.LOGS)

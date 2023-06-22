@@ -1,8 +1,5 @@
-class BuildingType {
+class Building {
     
-    static WOODCUTTER = new PrimaryProducer('Woodcutter', "./images/woodcutter.png", Good.BOARDS);
-
-//    static EMPTY = new BuildingType('-');
 
 //todo - add building cost
 //todo - work out how to store what it consumes/produces when more than 1 thing
@@ -34,7 +31,7 @@ class BuildingType {
     }
 }
 
-class PrimaryProducer extends BuildingType {
+class PrimaryProducer extends Building {
     
     constructor(name, image, produces) {
         super(name, image, produces)
@@ -49,7 +46,7 @@ class PrimaryProducer extends BuildingType {
     }
 }
 
-class SecondaryProducer extends BuildingType {
+class SecondaryProducer extends Building {
     
     constructor(name, image, consumes, produces, max) {
         super(name, image, produces)
@@ -70,7 +67,7 @@ class SecondaryProducer extends BuildingType {
     }
 }
 
-class TransporterFactory extends BuildingType {
+class TransporterFactory extends Building {
     
     constructor(name, image, consumes, produces) {
         super(name, image, produces)
@@ -88,4 +85,8 @@ class TransporterFactory extends BuildingType {
     max() {
         return 1;
     }
+}
+
+class Buildings {
+    static WOODCUTTER = new PrimaryProducer('Woodcutter', "./images/woodcutter.png", Good.BOARDS);
 }

@@ -1,8 +1,4 @@
-class TransporterType {
-    
-    static DONKEY = new TransporterType('Donkey', "./images/donkey.png", 2, 1);
-    static WAGON = new TransporterType('Wagon', "todo", 3, 3);
-    static RAFT = new TransporterType('Raft', "todo", 3, 3);
+class Transporter {
 
     constructor(name, image, capacity, movement) {
         this.name = name;
@@ -79,3 +75,10 @@ class TransporterType {
     }
 }
 
+class Transporters {
+    
+    static DONKEY = new Transporter('Donkey', "./images/donkey.png", 2, 1);
+    static WAGON = new Transporter('Wagon', "todo", 3, 3);
+    static RAFT = new Transporter('Raft', "todo", 3, 3);
+
+}
