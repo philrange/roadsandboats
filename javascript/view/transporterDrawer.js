@@ -1,23 +1,22 @@
 class TransporterDrawer {
     constructor(canvasContext) {
        this.canvasContext = canvasContext
-
     }
 
     count = 0;
 
 
-    draw(tile, centre) {
+    draw(area, centre) {
         //todo, draw transporters if they exist
-//        for tile.getBuildingAreas().values()
-//        for area.listTransporters().values()
-        
-        if (tile.getType() === TileType.DESERT) {
-            let donkey = new Transporter(TransporterType.DONKEY, 2, 1);
-            if (this.count > 0) donkey.highlight(true)
-            this.drawTransporter(donkey, centre)
+        for (let transporter of area.listTransporters().values()) {
+            
+
+            this.drawTransporter(transporter, centre)
             this.count++
         }
+        
+//        let donkey = new Transporter(TransporterType.DONKEY, 2, 1);
+//        if (this.count == 0) donkey.highlight(true)
     }
 
     drawTransporter(transporter, centre) {

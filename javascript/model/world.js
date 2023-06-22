@@ -44,7 +44,7 @@ class World {
         areas.values(x => console.log(x))
         for (const area of areas.values()) {
             if (area.isPointWithinArea(Honeycomb.Point({x: x, y: y}), centreAndCorners.centre, centreAndCorners.corners)) {
-                console.log("found matching area " + area)
+//                console.log("found matching area " + area)
                 return area
             }
         }

@@ -20,8 +20,8 @@ class GameController {
 
     performCommand(command) {
         console.log("Performing command: " + command)
-        this.gameContext.addCommandToHistory(command)
         command.perform(this)
+        this.gameContext.addCommandToHistory(command)
         this.redraw()
     }
 

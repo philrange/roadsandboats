@@ -67,29 +67,16 @@ class Direction {
 }
 
 class Good {
-    static LOGS = new Good('Logs');
-    static BOARDS = new Good('Boards');
-    static CLAY = new Good('Clay');
-    static STONE = new Good('Stone');
-    static IRON = new Good('Iron');
-    static GOLD = new Good('Gold');
-    static COINS = new Good('Coins');
-    static PAPER = new Good('Paper');
-    static GEESE = new Good('Geese');
-    static STOCK_CERTIFICATE = new Good('Stock Certificate');
-
-    constructor(name) {
-        this.name = name;
-    }
-    toString() {
-        return `Color.${this.name}`;
-    }
-}
-
-class TransporterType {
-    static DONKEY = new TransporterType('Donkey', "./images/donkey.png");
-    static WAGON = new TransporterType('Wagon', "todo");
-    static RAFT = new TransporterType('Raft', "todo");
+    static LOGS = new Good('Logs', "./images/mario.png");
+    static BOARDS = new Good('Boards', "./images/mario.png");
+    static CLAY = new Good('Clay', "todo");
+    static STONE = new Good('Stone', "./images/mario.png");
+    static IRON = new Good('Iron', "todo");
+    static GOLD = new Good('Gold', "todo");
+    static COINS = new Good('Coins', "todo");
+    static PAPER = new Good('Paper', "todo");
+    static GEESE = new Good('Geese', "./images/donkey.png");
+    static STOCK_CERTIFICATE = new Good('Stock Certificate', "todo");
 
     constructor(name, image) {
         this.name = name;
@@ -101,26 +88,7 @@ class TransporterType {
     }
 
     toString() {
-        return this.name;
-    }
-}
-
-class BuildingType {
-    static WOODCUTTER = new BuildingType('Woodcutter', "./images/woodcutter.png");
-
-//    static EMPTY = new BuildingType('-');
-
-    constructor(name, image) {
-        this.name = name;
-        this.image = image;
-    }
-
-    getImage() {
-        return ASSET_MANAGER.getAsset(this.image)
-    }
-
-    toString() {
-        return this.name;
+        return `Color.${this.name}`;
     }
 }
 
@@ -160,5 +128,9 @@ class Util {
         let middleX = (point1.x + point2.x) / 2
         let middleY = (point1.y + point2.y) / 2
         return Honeycomb.Point({x: middleX, y: middleY})
+    }
+    
+    static addOffset(point, offset) {
+        return Honeycomb.Point({x: point.x + offset, y: point.y + offset})
     }
 }

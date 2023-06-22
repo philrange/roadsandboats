@@ -1,11 +1,25 @@
-class Transporter {
-    constructor(type, capacity, movement) {
-        this.type = type;
+class TransporterType {
+    
+    static DONKEY = new TransporterType('Donkey', "./images/donkey.png", 2, 1);
+    static WAGON = new TransporterType('Wagon', "todo", 3, 3);
+    static RAFT = new TransporterType('Raft', "todo", 3, 3);
+
+    constructor(name, image, capacity, movement) {
+        this.name = name;
+        this.image = image;
         this.capacity = capacity;
         this.movement = movement;
         this.goods = new Map();
         this.movedThisTurn = 0;
         this.highlighted = false
+    }
+
+    getImage() {
+        return ASSET_MANAGER.getAsset(this.image)
+    }
+
+    toString() {
+        return this.name;
     }
 
     isFull() {
@@ -39,6 +53,8 @@ class Transporter {
 
     move(from, to) {
         this.movedThisTurn++;
+        from.removeTransporter(this)
+        to.placeTransporter(this)
     }
 
     canMove(from, toDirection) {

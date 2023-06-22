@@ -4,15 +4,11 @@ class BuildingDrawer {
 
     }
 
-    draw(tile, centre) {
-        //todo, draw buildings if they exist
+    draw(area, centre) {
 
-        for (const area of tile.getBuildingAreas().values()) {
-
-            if (area.hasBuilding()) {
+        if (area.hasBuilding()) {
 //                console.log("drawing building for " + tile + " " + area)
-                this.drawBuilding(area.getBuilding(), centre)
-            }
+            this.drawBuilding(area.getBuilding(), centre)
         }
     }
 

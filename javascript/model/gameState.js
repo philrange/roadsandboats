@@ -6,16 +6,19 @@ class GameState {
 
     placedHomeMarker = false
     homeMarkerTile = null
+    homeMarkerArea = null
     currentPhase = null
-    currentTurn = 1
+    currentTurn = 0
 
     advancePhase(gameController) {
         this.currentPhase = Phase.getNextPhase(this.currentPhase)
         
         if (this.currentPhase === Phase.PRODUCTION) {
             this.currentTurn++
-            //place neutral block in wonder
-            this.wonder.addBlock(new NeutralBlock(), gameController)
+            if (currentTurn > 1) {
+                //place neutral block in wonder
+                this.wonder.addBlock(new NeutralBlock(), gameController)
+            }
             gameController.production()
         }
     }
@@ -41,11 +44,16 @@ class GameState {
         return this.homeMarkerTile
     }
 
+    getHomeMarkerBuildingArea() {
+        return this.homeMarkerArea
+    }
+
     moveHomeMarker(tile, x, y) {
         this.world.clearHomeMarker()
         this.homeMarkerTile = tile
         let area = this.world.getBuildingAreaForCoordinates(tile, x, y)
         area.setHomeMarker()
+        this.homeMarkerArea = area
     }
 
     havePlacedHomeMarker() {
@@ -53,11 +61,17 @@ class GameState {
     }
 
     confirmPlaceHomeMarker(gameController) {
+        if (this.homeMarkerTile == null) {
+            throw new Error("need to place home marker first")
+        }
+        
         this.placedHomeMarker = true
         this.currentPhase = Phase.WONDER
         
         //todo - remove
         this.temporaryMethodToAddBuildingsAndStuff()
+        
+        this.spawnStartingResources()
         
         this.advancePhase(gameController)
     }
@@ -81,14 +95,30 @@ class GameState {
 //        let tile = this.world.getTileForCoordinates(837 - PARAMS.WORLD_OFFSET_X, 316 - PARAMS.WORLD_OFFSET_Y)
         console.log("adding somethign to a tile " + tile)
 
-        for (const area of tile.getBuildingAreas().values()) {
-            
-//            console.log(area)
-        }
 //        console.log("getting " + tile.getType().name + ".area1")
         let area = tile.getBuildingAreas().get(tile.getType().name + ".area1")
 //        console.log("area " + area)
         area.build(BuildingType.WOODCUTTER)
+        console.log("placing donkey")
+        area.placeTransporter(TransporterType.DONKEY)
+        console.log("placed donkey")
+    }
+
+    spawnStartingResources() {
+        
+        let area = this.getHomeMarkerBuildingArea()
+        
+        console.log("adding starting resources to home tile " + area)
+        
+        area.placeTransporter(TransporterType.DONKEY)
+        area.dropGood(Good.GEESE)
+        area.dropGood(Good.GEESE)
+        area.dropGood(Good.LOGS)
+        area.dropGood(Good.LOGS)
+        area.dropGood(Good.LOGS)
+        area.dropGood(Good.LOGS)
+        area.dropGood(Good.LOGS)
+        area.dropGood(Good.STONE)
     }
 
 }
