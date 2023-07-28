@@ -8,16 +8,21 @@ class WorldDrawer {
         this.goodDrawer = new GoodDrawer(canvasContext)
     }
 
+    count = 0;
+    intervalId = null;
+    location = null;
+    
     draw() {
         let grid = this.world.getGrid()
+        let tileNumber=0
         for (const hex of grid) {
             let tile = this.world.getTileForHex(hex)
             // console.log("drawing hex " + hex + " " + tile + " ")
-            this.drawTile(hex, tile)
+            this.drawTile(hex, tile, tileNumber++)
         }
     }
 
-    drawTile(hex, tile) {
+    drawTile(hex, tile, tileNumber) {
 
         let canvas = this.canvasContext
         const hexOriginPoint = hex.toPoint().add(this.offset)
@@ -47,7 +52,7 @@ class WorldDrawer {
 
 
             //draw stuff on top
-            this.drawRivers(hexOriginPoint, centre, hex, tile)
+            this.drawRivers(hexOriginPoint, centre, hex, tile, tileNumber)
             
             //per area
             tile.getBuildingAreas().forEach(area => {
@@ -71,9 +76,10 @@ class WorldDrawer {
         }
     }
 
-    drawRivers(hexOriginPoint, centre, hex, tile) {
+    drawRivers(hexOriginPoint, centre, hex, tile, tileNumber) {
         let canvas = this.canvasContext
-        tile.getRiverExits().forEach(direction => {
+        for (const direction of tile.getRiverExits()) {
+//        tile.getRiverExits().forEach(direction => {
             // console.log("found river for " + hex + " " + tile)
             let corners = direction.getCornersForDirection()
             let middleOfEdge = Util.findMiddle(hex.corners()[corners.a].add(hexOriginPoint), hex.corners()[corners.b].add(hexOriginPoint))
@@ -83,20 +89,61 @@ class WorldDrawer {
             canvas.fillStyle = '#0000ff'
             let distanceBetweenPoints = Math.sqrt(Math.pow(middleOfEdge.x - centre.x, 2) + Math.pow(middleOfEdge.y - centre.y, 2))
             let unitVector = {x: (middleOfEdge.x - centre.x) / distanceBetweenPoints, y: (middleOfEdge.y - centre.y) / distanceBetweenPoints}
+//            if (unitVector.y ==  0) {
+//                unitVector.y = 1
+//            }
             // console.log("dist " + distanceBetweenPoints)
             // console.log("uv " + unitVector.x + " " + unitVector.y)
             let numberOfWiggles = 20
-            let distanceAlongLine = distanceBetweenPoints/numberOfWiggles
+            let distanceBetweenWiggles = distanceBetweenPoints/numberOfWiggles
+            let distanceAlongLine = 0
             canvas.beginPath();
             canvas.moveTo(centre.x, centre.y);
             // console.log("centre " + centre.x + " " + centre.y)
             let location = centre
+            
+            let xMovement = (distanceBetweenWiggles * unitVector.x)
+            let yMovement = (distanceBetweenWiggles * unitVector.y)
+            
+            let locations = []
+                           
+//            for (let i = 0; i < numberOfWiggles; i++) {
+//                let yMovement = this.perturb(distanceBetweenWiggles) + (distanceBetweenWiggles * unitVector.y)
+//                location = {x: location.x + xMovement, y: location.y + yMovement}
+//                // console.log(" new loc " + location.x + " " + location.y)
+////                 let delay = (tileNumber * numberOfWiggles * 100) + (100 * count++)
+////                console.log("delay: " + delay)
+////                setTimeout(this.drawLine, delay, canvas, location.x, location.y);
+////                this.drawLine(canvas, location.x, location.y)
+//                 locations.push(location)
+//            }
+
+            
+            //y = sin(x/Cx * PI/2) * Cy
+
             for (let i = 0; i < numberOfWiggles; i++) {
-                let xMovement = this.perturb(distanceAlongLine) + (distanceAlongLine * unitVector.x)
-                let yMovement = this.perturb(distanceAlongLine) + (distanceAlongLine * unitVector.y)
-                location = {x: location.x + xMovement, y: location.y + yMovement}
-                // console.log(" new loc " + location.x + " " + location.y)
-                canvas.lineTo(location.x, location.y);
+                console.log(distanceAlongLine)
+
+                console.log("aa " + ((distanceAlongLine) * (Math.PI / 2)))
+                console.log("bb " + Math.sin(((distanceAlongLine) * (Math.PI / 2))))
+                let wiggleMovement = (Math.sin(((distanceAlongLine) * (Math.PI ))) * 3)
+                let wiggleMovementX = wiggleMovement * unitVector.y   
+                let wiggleMovementY = wiggleMovement * unitVector.x   
+//                let yExtraMovement = 0
+                
+                console.log("unit " + unitVector.x + " " + unitVector.y)
+                location = {x: location.x + xMovement + wiggleMovementX, y: location.y + yMovement + wiggleMovementY}
+
+                 console.log(" movement " + xMovement + " " + yMovement)
+
+                                 
+                locations.push(location)
+                distanceAlongLine += distanceBetweenWiggles
+            }
+            
+            for (location of locations) {
+                canvas.lineTo(location.x, location.y);           
+                canvas.stroke();
             }
 
             canvas.lineTo(middleOfEdge.x, middleOfEdge.y);
@@ -108,7 +155,20 @@ class WorldDrawer {
                 canvas.arc(middleOfEdge.x, middleOfEdge.y, 5, 0, Math.PI * 2)
                 canvas.fill()
             // }
-        })
+            
+    
+        }
+    }
+    
+    drawLine(canvas, locations) {
+        console.log("count " + this.count)
+        this.location = locations[this.count++]
+        console.log("location " + this.location)
+        canvas.lineTo(this.location.x, this.location.y);           
+        canvas.stroke();
+        if (this.count == 19) {
+            clearInterval(this.intervalId)
+        }
     }
 
     perturb(number) {
