@@ -107,54 +107,31 @@ class WorldDrawer {
             
             let locations = []
                            
-//            for (let i = 0; i < numberOfWiggles; i++) {
-//                let yMovement = this.perturb(distanceBetweenWiggles) + (distanceBetweenWiggles * unitVector.y)
-//                location = {x: location.x + xMovement, y: location.y + yMovement}
-//                // console.log(" new loc " + location.x + " " + location.y)
-////                 let delay = (tileNumber * numberOfWiggles * 100) + (100 * count++)
-////                console.log("delay: " + delay)
-////                setTimeout(this.drawLine, delay, canvas, location.x, location.y);
-////                this.drawLine(canvas, location.x, location.y)
-//                 locations.push(location)
-//            }
-
-            
-            //y = sin(x/Cx * PI/2) * Cy
 
             for (let i = 0; i < numberOfWiggles; i++) {
-                console.log(distanceAlongLine)
 
-                console.log("aa " + ((distanceAlongLine) * (Math.PI / 2)))
-                console.log("bb " + Math.sin(((distanceAlongLine) * (Math.PI / 2))))
                 let wiggleMovement = (Math.sin(((distanceAlongLine) * (Math.PI ))) * 3)
-                let wiggleMovementX = wiggleMovement * unitVector.y   
-                let wiggleMovementY = wiggleMovement * unitVector.x   
-//                let yExtraMovement = 0
-                
-                console.log("unit " + unitVector.x + " " + unitVector.y)
+                let wiggleMovementX = wiggleMovement * unitVector.y  
+                let wiggleMovementY = wiggleMovement * unitVector.x  
+            
                 location = {x: location.x + xMovement + wiggleMovementX, y: location.y + yMovement + wiggleMovementY}
-
-                 console.log(" movement " + xMovement + " " + yMovement)
-
-                                 
                 locations.push(location)
                 distanceAlongLine += distanceBetweenWiggles
             }
             
             for (location of locations) {
                 canvas.lineTo(location.x, location.y);           
-                canvas.stroke();
+
             }
 
             canvas.lineTo(middleOfEdge.x, middleOfEdge.y);
             canvas.stroke();
-            // if (PARAMS.DEBUG) {
             //add some circles to cover up joins
-                canvas.beginPath()
-                canvas.arc(centre.x, centre.y, 2, 0, Math.PI * 2)
-                canvas.arc(middleOfEdge.x, middleOfEdge.y, 5, 0, Math.PI * 2)
-                canvas.fill()
-            // }
+            canvas.beginPath()
+            canvas.arc(centre.x, centre.y, 2, 0, Math.PI * 2)
+            canvas.arc(middleOfEdge.x, middleOfEdge.y, 5, 0, Math.PI * 2)
+            canvas.fill()
+
             
     
         }
@@ -169,15 +146,6 @@ class WorldDrawer {
         if (this.count == 19) {
             clearInterval(this.intervalId)
         }
-    }
-
-    perturb(number) {
-        // console.log("number " + number)
-        let randomNoise = (Math.floor(Math.random() * 50) - 20)/100
-        // console.log("noise " + randomNoise)
-        let perturbedNumber = number * randomNoise
-        // console.log("perturbedNumber " + perturbedNumber)
-        return perturbedNumber;
     }
 
     drawHomeMarker(area, centre) {

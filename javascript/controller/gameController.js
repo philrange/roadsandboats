@@ -5,7 +5,7 @@ class GameController {
         this.gameState = new GameState(wonder, world)
         this.gameContext = new GameContext(this)
         this.view = new View(this.gameContext, canvasContext, world, wonder, this.gameState);
-        this.productionController = new ProductionController(world)
+        this.productionController = new ProductionController(world, this.view)
     }
 
 

@@ -1,6 +1,7 @@
 class ProductionController {
-    constructor(world) {
+    constructor(world, view) {
         this.world = world
+        this.view = view
     }
     
     
@@ -22,7 +23,7 @@ class ProductionController {
                     
                     let building = area.getBuilding()
                     if (building.isPrimaryProducer) {
-                        console.log("producing " + building.produces + " for building " + building + " on tile " + tile)
+                        this.view.phaseLog("producing " + building.produces + " from the " + building + " on tile " + tile)
                         area.dropGood(building.produces)
                     }
                     

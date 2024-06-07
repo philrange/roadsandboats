@@ -1,5 +1,5 @@
 class GameState {
-    constructor(wonder, world) {
+    constructor(wonder, world, view) {
         this.wonder = wonder
         this.world = world
     }

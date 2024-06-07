@@ -24,19 +24,28 @@ class View {
 
         //write to outer page
         const gameStage = document.getElementById('gameStage')
-        this.writeCurrentTurnAndPhase(gameStage);
+        const phaseTitle = document.getElementById('phaseTitle')
+        this.writeCurrentTurnAndPhase(gameStage, phaseTitle);
 
     }
 
-    writeCurrentTurnAndPhase(gameStage) {
+    writeCurrentTurnAndPhase(gameStage, phaseTitle) {
         if (this.gameState.havePlacedHomeMarker()) {
             gameStage.innerText = "Turn " + this.gameState.getCurrentTurn() + ": " + this.gameState.getCurrentPhase().name
+            phaseTitle.innerText = this.gameState.getCurrentPhase().name
+            this.phaseLog("")
         }
     }
 
     showInfoMessage(text) {
         let infoMessage = document.getElementById('infoMessage');
         infoMessage.innerText = text;
+    }
+    
+    phaseLog(message) {
+        console.log(message)
+        let phaseLog = document.getElementById('phaseLog');
+        phaseLog.innerText += "\n" + message;
     }
 
     displayAreaContents(area) {
